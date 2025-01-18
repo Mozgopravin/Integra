@@ -282,6 +282,10 @@
         }
 
         setInterval(changeText, 100); // Change text every 40ms
+        // Автоматическое воспроизведение музыки из указанного URL
+        const audio = new Audio("music/yourmusicfile.mp3");
+        audio.loop = true; // Зацикливание музыки
+        audio.play();
     </script>
 </body>
 </html>
