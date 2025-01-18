@@ -33,90 +33,22 @@
             text-align: center;
         }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
         h1 {
-            font-size: 4rem;
+            font-size: 6rem;
             margin: 0;
         }
 
         h2 {
-            font-size: 6rem;
+            font-size: 2rem;
             margin: 0;
-            font-weight: bold;
-            white-space: nowrap;
-            overflow: hidden;
-            display: inline-block;
-            width: 0;
-            animation: typing 4s steps(30) 1s forwards, erase 4s steps(30) 5s 1 forwards, blink 0.75s step-end infinite;
+            font-weight: bold;  /* Это указывает, что заголовок будет жирным */
         }
-
-        /* Анимация набора текста */
-        @keyframes typing {
-            0% {
-                width: 0;
-            }
-            100% {
-                width: 100%;
-            }
-        }
-
-        /* Анимация стирания текста */
-        @keyframes erase {
-            0% {
-                width: 100%;
-            }
-            100% {
-                width: 0;
-            }
-        }
-
-        /* Бликинг курсора */
-        @keyframes blink {
-            0%, 50% {
-                border-color: transparent;
-            }
-            50% {
-                border-color: white;
-            }
-        }
-
     </style>
 </head>
 <body>
-    <div class="container">
+    <div>
         <h1>Добро пожаловать</h1>
-        <h2 id="text">INTEGRA team</h2>
+        <h2>INTEGRA team</h2>
     </div>
-
-    <script>
-        // Функция для смены текста с анимацией
-        function changeText() {
-            const textElement = document.getElementById('text');
-            const texts = ["INTEGRA team", "Mozgopravin was here"];
-            let currentTextIndex = 0;
-
-            setInterval(() => {
-                // Стираем текущий текст
-                textElement.style.animation = 'none';  // Сброс анимации
-                textElement.offsetHeight;  // Принудительный пересчет DOM
-                textElement.style.animation = '';  // Повторное присваивание анимации
-
-                // Меняем текст
-                textElement.innerText = texts[currentTextIndex];
-                currentTextIndex = (currentTextIndex + 1) % texts.length;  // Переключение текста
-
-                // Повторно применяем анимацию набора текста
-                textElement.style.animation = 'typing 4s steps(30) 1s forwards, erase 4s steps(30) 5s 1 forwards, blink 0.75s step-end infinite';
-            }, 9000);  // Цикл каждые 9 секунд (также можно настроить по желанию)
-        }
-
-        // Запуск функции смены текста
-        changeText();
-    </script>
 </body>
 </html>
