@@ -29,7 +29,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            color: white;
+            color: black;
             text-align: center;
         }
 
@@ -49,6 +49,20 @@
             margin: 0;
             font-weight: bold;
         }
+           /* Стили для текста "since 2022" */
+        .since-text {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: rgba(215, 215, 215, 0.5);
+            transition: color 0.3s ease;
+        }
+
+        .since-text:hover {
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -56,9 +70,12 @@
         <h1>Добро пожаловать!</h1>
         <div class="animated-text" id="text"></div>
         <h2></h2>
+
+        <div class="since-text">since 2022</div>
     </div>
 
     <script>
+
         const textStages = [
             // "INTEGRA team" animation
             ["I"], 
