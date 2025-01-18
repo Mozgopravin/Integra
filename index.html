@@ -51,7 +51,7 @@
             white-space: nowrap;
             overflow: hidden;
             width: 0;
-            animation: typing 5s steps(20) 1s forwards, erase 5s steps(20) 10s 1 forwards, changeText 10s infinite;
+            animation: typing 5s steps(20) 1s forwards, erase 5s steps(20) 10s 1 forwards;
         }
 
         @keyframes typing {
@@ -95,25 +95,34 @@
                 width: 100%;
             }
         }
-
-        @keyframes changeText {
-            0% {
-                content: "INTEGRA team";
-            }
-            50% {
-                content: "Mozgopravin was here";
-            }
-            100% {
-                content: "INTEGRA team";
-            }
-        }
-
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Добро пожаловать</h1>
-        <h2>INTEGRA team</h2>
+        <h2 id="text">INTEGRA team</h2>
     </div>
+
+    <script>
+        // Функция для смены текста
+        function changeText() {
+            const textElement = document.getElementById('text');
+            const texts = ["INTEGRA team", "Mozgopravin was here"];
+            let currentTextIndex = 0;
+
+            setInterval(() => {
+                textElement.style.width = '0';  // Начинаем стирание текста
+                setTimeout(() => {
+                    // Меняем текст после стирания
+                    currentTextIndex = (currentTextIndex + 1) % texts.length;
+                    textElement.innerText = texts[currentTextIndex];
+                    textElement.style.width = '100%';  // Начинаем новый набор текста
+                }, 500);  // Задержка перед сменой текста
+            }, 10000);  // Цикл каждые 10 секунд
+        }
+
+        // Запуск функции смены текста
+        changeText();
+    </script>
 </body>
 </html>
