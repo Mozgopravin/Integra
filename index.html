@@ -29,7 +29,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            color: white;
+            color: black;
             text-align: center;
         }
 
@@ -38,17 +38,125 @@
             margin: 0;
         }
 
+        .animated-text {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-top: 20px;  /* отступ для текста */
+        }
+
         h2 {
             font-size: 2rem;
             margin: 0;
-            font-weight: bold;  /* Это указывает, что заголовок будет жирным */
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <div>
-        <h1>Добро пожаловать</h1>
-        <h2>INTEGRA team</h2>
+        <h1>Добро пожаловать!</h1>
+        <div class="animated-text" id="text"></div>
+        <h2></h2>
     </div>
+
+    <script>
+        const textStages = [
+            // "INTEGRA team" animation
+            ["I\\", "I|", "I/", "I-"], 
+            ["In\\", "In|", "In/", "In-"], 
+            ["Int\\", "Int|", "Int/", "Int-"], 
+            ["Inte\\", "Inte|", "Inte/", "Inte-"],
+            ["Integ\\", "Integ|", "Integ/", "Integ-"], 
+            ["Integr\\", "Integr|", "Integr/", "Integr-"],
+            ["Integra\\", "Integra|", "Integra/", "Integra-"], 
+            ["Integra t\\", "Integra t|", "Integra t/", "Integra t-"],
+            ["Integra te\\", "Integra te|", "Integra te/", "Integra te-"], 
+            ["Integra tea\\", "Integra tea|", "Integra tea/", "Integra tea-"], 
+            ["Integra team\\", "Integra team|", "Integra team/", "Integra team-"],
+            ["Integra team\\", "Integra team|", "Integra team/", "Integra team-"],
+            ["Integra team\\", "Integra team|", "Integra team/", "Integra team-"],
+            ["Integra team\\", "Integra team|", "Integra team/", "Integra team-"],
+            ["Integra team\\", "Integra team|", "Integra team/", "Integra team-"],
+            ["Integra team\\", "Integra team|", "Integra team/", "Integra team-"],
+            ["Integra team\\", "Integra team|", "Integra team/", "Integra team-"],
+            ["Integra team\\", "Integra team|", "Integra team/", "Integra team-"],
+            ["Integra tea\\", "Integra tea|", "Integra tea/", "Integra tea-"],
+            ["Integra te\\", "Integra te|", "Integra te/", "Integra te-"],
+            ["Integra t\\", "Integra t|", "Integra t/", "Integra t-"],
+            ["Integra\\", "Integra|", "Integra/", "Integra-"],
+            ["Integr\\", "Integr|", "Integr/", "Integr-"],
+            ["Integ\\", "Integ|", "Integ/", "Integ-"],
+            ["Inte\\", "Inte|", "Inte/", "Inte-"],
+            ["Int\\", "Int|", "Int/", "Int-"],
+            ["In\\", "In|", "In/", "In-"],
+            ["I\\", "I|", "I/", "I-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+
+            // "Mozgopravin was here" animation
+            ["M\\", "M|", "M/", "M-"], 
+            ["Mo\\", "Mo|", "Mo/", "Mo-"], 
+            ["Moz\\", "Moz|", "Moz/", "Moz-"], 
+            ["Mozg\\", "Mozg|", "Mozg/", "Mozg-"],
+            ["Mozgo\\", "Mozgo|", "Mozgo/", "Mozgo-"], 
+            ["Mozgop\\", "Mozgop|", "Mozgop/", "Mozgop-"],
+            ["Mozgopr\\", "Mozgopr|", "Mozgopr/", "Mozgopr-"], 
+            ["Mozgopra\\", "Mozgopra|", "Mozgopra/", "Mozgopra-"],
+            ["Mozgoprav\\", "Mozgoprav|", "Mozgoprav/", "Mozgoprav-"], 
+            ["Mozgopravi\\", "Mozgopravi|", "Mozgopravi/", "Mozgopravi-"],
+            ["Mozgopravin\\", "Mozgopravin|", "Mozgopravin/", "Mozgopravin-"], 
+            ["Mozgopravin w\\", "Mozgopravin w|", "Mozgopravin w/", "Mozgopravin w-"], 
+            ["Mozgopravin wa\\", "Mozgopravin wa|", "Mozgopravin wa/", "Mozgopravin wa-"],
+            ["Mozgopravin was\\", "Mozgopravin was|", "Mozgopravin was/", "Mozgopravin was-"], 
+            ["Mozgopravin was h\\", "Mozgopravin was h|", "Mozgopravin was h/", "Mozgopravin was h-"], 
+            ["Mozgopravin was he\\", "Mozgopravin was he|", "Mozgopravin was he/", "Mozgopravin was he-"], 
+            ["Mozgopravin was her\\", "Mozgopravin was her|", "Mozgopravin was her/", "Mozgopravin was her-"], 
+            ["Mozgopravin was here\\", "Mozgopravin was here|", "Mozgopravin was here/", "Mozgopravin was here-"], 
+            ["Mozgopravin was here\\", "Mozgopravin was here|", "Mozgopravin was here/", "Mozgopravin was here-"],
+            ["Mozgopravin was here\\", "Mozgopravin was here|", "Mozgopravin was here/", "Mozgopravin was here-"],
+            ["Mozgopravin was here\\", "Mozgopravin was here|", "Mozgopravin was here/", "Mozgopravin was here-"],
+            ["Mozgopravin was here\\", "Mozgopravin was here|", "Mozgopravin was here/", "Mozgopravin was here-"],
+            ["Mozgopravin was here\\", "Mozgopravin was here|", "Mozgopravin was here/", "Mozgopravin was here-"],
+            ["Mozgopravin was here\\", "Mozgopravin was here|", "Mozgopravin was here/", "Mozgopravin was here-"],
+            ["Mozgopravin was here\\", "Mozgopravin was here|", "Mozgopravin was here/", "Mozgopravin was here-"],
+            ["Mozgopravin was her\\", "Mozgopravin was her|", "Mozgopravin was her/", "Mozgopravin was her-"],
+            ["Mozgopravin was he\\", "Mozgopravin was he|", "Mozgopravin was he/", "Mozgopravin was he-"],
+            ["Mozgopravin was h\\", "Mozgopravin was h|", "Mozgopravin was h/", "Mozgopravin was h-"],
+            ["Mozgopravin was\\", "Mozgopravin was|", "Mozgopravin was/", "Mozgopravin was-"],
+            ["Mozgopravin wa\\", "Mozgopravin wa|", "Mozgopravin wa/", "Mozgopravin wa-"],
+            ["Mozgopravin w\\", "Mozgopravin w|", "Mozgopravin w/", "Mozgopravin w-"],
+            ["Mozgopravin\\", "Mozgopravin|", "Mozgopravin/", "Mozgopravin-"],
+            ["Mozgopravi\\", "Mozgopravi|", "Mozgopravi/", "Mozgopravi-"],
+            ["Mozgoprav\\", "Mozgoprav|", "Mozgoprav/", "Mozgoprav-"],
+            ["Mozgopra\\", "Mozgopra|", "Mozgopra/", "Mozgopra-"],
+            ["Mozgopr\\", "Mozgopr|", "Mozgopr/", "Mozgopr-"],
+            ["Mozgop\\", "Mozgop|", "Mozgop/", "Mozgop-"],
+            ["Mozgo\\", "Mozgo|", "Mozgo/", "Mozgo-"],
+            ["Mozg\\", "Mozg|", "Mozg/", "Mozg-"],
+            ["Moz\\", "Moz|", "Moz/", "Moz-"],
+            ["Mo\\", "Mo|", "Mo/", "Mo-"],
+            ["M\\", "M|", "M/", "M-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"]
+            
+        ];
+
+        let i = 0;
+        let j = 0;
+        const textElement = document.getElementById("text");
+
+        function changeText() {
+            textElement.textContent = textStages[i][j];
+            j = (j + 1) % textStages[i].length; // Cycle through the symbols for the current text
+            if (j === 0) {
+                i = (i + 1) % textStages.length; // Move to the next stage after completing the symbols
+            }
+        }
+
+        setInterval(changeText, 65); // Change text every 40ms
+    </script>
 </body>
 </html>
