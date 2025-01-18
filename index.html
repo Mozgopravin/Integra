@@ -1,58 +1,38 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INTEGRA team</title>
-    
+    <title>Text Animation Example</title>
     <style>
-        /* Подключаем шрифт Fatal (TRIAL) Bold */
-        @font-face {
-            font-family: 'Fatal Trial';  /* Имя шрифта */
-            src: url('fonts/Fatal-TRIAL-Bold.woff2') format('woff2'),  /* Шрифт в формате woff2 */
-                 url('fonts/Fatal-TRIAL-Bold.woff') format('woff'),  /* Шрифт в формате woff */
-                 url('fonts/Fatal-TRIAL-Bold.ttf') format('truetype'); /* Шрифт в формате ttf */
-            font-weight: bold;  /* Указываем, что это жирный шрифт */
-            font-style: normal;  /* Устанавливаем стиль нормальный */
-        }
-
         body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
             margin: 0;
             padding: 0;
-            font-family: 'Fatal Trial', Arial, sans-serif;  /* Используем жирный шрифт Fatal Trial */
-            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-image: url('images/background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            color: white;
-            text-align: center;
+            height: 100vh;
+            overflow: hidden;
         }
 
         .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        h1 {
-            font-size: 4rem;
-            margin: 0;
-        }
-
-        h2 {
-            font-size: 6rem;
-            margin: 0;
+            font-size: 3rem;
             font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             white-space: nowrap;
+        }
+
+        .text {
             overflow: hidden;
-            display: inline-block;
             width: 0;
-            animation: typing 5s steps(40) 1s forwards, erase 5s steps(40) 6s 1 forwards, blink 0.75s step-end infinite;
+            border-right: 4px solid white;
+            white-space: nowrap;
+            animation: typing 5s steps(40) 1s forwards, erase 3s steps(40) 6s 1 forwards, blink 0.75s step-end infinite;
         }
 
         /* Анимация набора текста */
@@ -84,39 +64,31 @@
                 border-color: white;
             }
         }
-
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Добро пожаловать</h1>
-        <h2 id="text">INTEGRA team</h2>
+        <div class="text" id="text">INTEGRA team</div>
     </div>
 
     <script>
-        // Функция для смены текста с анимацией
+        const texts = ["INTEGRA team", "Mozgopravin was here"];  // Массив текстов
+        let currentTextIndex = 0;
+
         function changeText() {
             const textElement = document.getElementById('text');
-            const texts = ["INTEGRA team", "Mozgopravin was here"];
-            let currentTextIndex = 0;
 
             setInterval(() => {
-                // Стираем текущий текст
                 textElement.style.animation = 'none';  // Сброс анимации
                 textElement.offsetHeight;  // Принудительный пересчет DOM
                 textElement.style.animation = '';  // Повторное присваивание анимации
 
-                // Меняем текст
                 textElement.innerText = texts[currentTextIndex];
                 currentTextIndex = (currentTextIndex + 1) % texts.length;  // Переключение текста
-
-                // Повторно применяем анимацию набора текста
-                textElement.style.animation = 'typing 5s steps(40) 1s forwards, erase 5s steps(40) 6s 1 forwards, blink 0.75s step-end infinite';
-            }, 10000);  // Цикл каждые 10 секунд
+            }, 8000);  // Переключаем текст каждые 8 секунд
         }
 
-        // Запуск функции смены текста
-        changeText();
+        changeText();  // Запуск анимации
     </script>
 </body>
 </html>
