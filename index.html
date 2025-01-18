@@ -33,21 +33,85 @@
             text-align: center;
         }
 
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         h1 {
-            font-size: 5rem;
+            font-size: 4rem;
             margin: 0;
-            font-weight: bold;
         }
 
         h2 {
-            font-size: 3rem;
+            font-size: 6rem;
             margin: 0;
             font-weight: bold;  /* Это указывает, что заголовок будет жирным */
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            animation: typing 5s steps(20) 1s forwards, erase 5s steps(20) 10s 1 forwards, changeText 10s infinite;
         }
+
+        @keyframes typing {
+            0% {
+                width: 0;
+            }
+            20% {
+                width: 100%;
+            }
+            40% {
+                width: 100%;
+            }
+            60% {
+                width: 0;
+            }
+            80% {
+                width: 0;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        @keyframes erase {
+            0% {
+                width: 100%;
+            }
+            20% {
+                width: 100%;
+            }
+            40% {
+                width: 0;
+            }
+            60% {
+                width: 0;
+            }
+            80% {
+                width: 100%;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        @keyframes changeText {
+            0% {
+                content: "INTEGRA team";
+            }
+            50% {
+                content: "Mozgopravin was here";
+            }
+            100% {
+                content: "INTEGRA team";
+            }
+        }
+
     </style>
 </head>
 <body>
-    <div>
+    <div class="container">
         <h1>Добро пожаловать</h1>
         <h2>INTEGRA team</h2>
     </div>
