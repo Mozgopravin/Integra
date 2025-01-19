@@ -23,46 +23,51 @@
             font-family: 'Fatal Trial', Arial, sans-serif;  /* Используем жирный шрифт Fatal Trial */
             height: 100vh;
             overflow: hidden;
-        }
-
-        /* Стили для начальной страницы */
-        #entry-screen {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: black;
-            color: white;
-            font-size: 3rem;
-            cursor: pointer;
-            transition: opacity 1s ease;
-        }
-
-        /* Скрытие экрана входа */
-        #entry-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* Стили для основной страницы */
-        #main-screen {
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             background-image: url('images/background.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             color: white;
             text-align: center;
+        }
+
+        /* Стили для окна "Click to Enter" */
+        #entry-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(112, 33, 193, 0.9); /* Тёмный фон с прозрачностью */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
             transition: opacity 1s ease;
         }
 
-        #main-screen.visible {
-            display: flex;
+        /* Скрытие окна входа */
+        #entry-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Основная страница */
+        #main-content {
+            position: relative;
+            z-index: 1; /* Слой ниже окна входа */
             opacity: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
         h1 {
@@ -73,7 +78,7 @@
         .animated-text {
             font-size: 2rem;
             font-weight: bold;
-            margin-top: 20px;  /* отступ для текста */
+            margin-top: 20px;
         }
 
         h2 {
@@ -88,7 +93,7 @@
             left: 50%;
             transform: translateX(-50%);
             font-size: 1.5rem;
-            color: rgba(215, 215, 215, 0.5);
+            color: rgba(215, 215, 215, 1);
             transition: color 0.3s ease;
         }
 
@@ -98,12 +103,12 @@
     </style>
 </head>
 <body>
-    <!-- Начальная страница -->
-    <div id="entry-screen" onclick="enterSite()">Click to Enter</div>
+    <!-- Окно "Click to Enter" -->
+    <div id="entry-overlay" onclick="hideOverlay()">Click to Enter</div>
 
-    <!-- Основная страница -->
-    <div id="main-screen">
-        <h1>Integra team</h1>
+    <!-- Основное содержимое -->
+    <div id="main-content">
+        <h1>Добро пожаловать!</h1>
         <div class="animated-text" id="text"></div>
         <h2></h2>
         <div class="since-text">since 2022</div>
@@ -111,14 +116,30 @@
 
     <script>
         const textStages = [
-               ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
+            ["Loading"],
+            ["Loading."],
+            ["Loading.."],
+            ["Loading..."],
+            ["Loading"],
+            ["Loading."],
+            ["Loading.."],
+            ["Loading..."],
+            ["Loading"],
+            ["Loading."],
+            ["Loading.."],
+            ["Loading..."],
+            ["Loading"],
+            ["Loading."],
+            ["Loading.."],
+            ["Loading..."],
+            ["Loading"],
+            ["Loading."],
+            ["Loading.."],
+            ["Loading..."],
+            ["Loading"],
+            ["Loading."],
+            ["Loading.."],
+            ["Loading..."],
 
             // "Mozgopravin was here" animation
            ["M"], 
@@ -163,14 +184,14 @@
            ["Moz"],
            ["Mo"],
            ["M"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
+            ["Loading"],
+            ["Loading."],
+            ["Loading.."],
+            ["Loading..."],
+            ["Loading"],
+            ["Loading."],
+            ["Loading.."],
+            ["Loading..."],
 
             // rnh
             ["R"], 
@@ -263,14 +284,17 @@
             ["Red"], 
             ["Re"], 
             ["R"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
-            ["\\", "|", "/", "-"],
+            ["Loading"],
+            ["Loading."],
+            ["Loading.."],
+            ["Loading..."],
+            ["Loading"],
+            ["Loading."],
+            ["Loading.."],
+            ["Loading..."],
+            ["Loading"],
+            ["Loading."],
+           
         ];
 
         let i = 0;
@@ -283,21 +307,21 @@
 
         setInterval(changeText, 100);
 
-        const entryScreen = document.getElementById("entry-screen");
-        const mainScreen = document.getElementById("main-screen");
+        const overlay = document.getElementById("entry-overlay");
         const audio = new Audio("https://track.pinkamuz.pro/download/333331b0b03436b2308c3731353332b63430310100/6ea3f09672910145b4559df195d8cd98/%C3%98fdream%20-%20Thelema%20%28slow%20reverb%29.mp3");
         audio.loop = true;
 
-        function enterSite() {
+        function hideOverlay() {
             // Запуск музыки
             audio.play().catch(err => console.log("Музыка не может быть воспроизведена автоматически: ", err));
 
-            // Анимация скрытия экрана входа
-            entryScreen.classList.add("hidden");
+            // Плавное исчезновение окна входа
+            overlay.classList.add("hidden");
+
+            // Удаление элемента из DOM после завершения анимации
             setTimeout(() => {
-                entryScreen.style.display = "none";
-                mainScreen.classList.add("visible");
-            }, 1000); // Задержка для плавного перехода
+                overlay.style.display = "none";
+            }, 1000); // Задержка для завершения анимации
         }
     </script>
 </body>
