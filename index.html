@@ -9,28 +9,60 @@
     <style>
         /* Подключаем шрифт Fatal (TRIAL) Bold */
         @font-face {
-            font-family: 'Fatal Trial';  
-            src: url('fonts/Fatal-TRIAL-Bold.woff2') format('woff2'),  
-                 url('fonts/Fatal-TRIAL-Bold.woff') format('woff'),  
-                 url('fonts/Fatal-TRIAL-Bold.ttf') format('truetype'); 
-            font-weight: bold;  
-            font-style: normal;  
+            font-family: 'Fatal Trial';  /* Имя шрифта */
+            src: url('fonts/Fatal-TRIAL-Bold.woff2') format('woff2'),  /* Шрифт в формате woff2 */
+                 url('fonts/Fatal-TRIAL-Bold.woff') format('woff'),  /* Шрифт в формате woff */
+                 url('fonts/Fatal-TRIAL-Bold.ttf') format('truetype'); /* Шрифт в формате ttf */
+            font-weight: bold;  /* Указываем, что это жирный шрифт */
+            font-style: normal;  /* Устанавливаем стиль нормальный */
         }
 
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Fatal Trial', Arial, sans-serif;  
+            font-family: 'Fatal Trial', Arial, sans-serif;  /* Используем жирный шрифт Fatal Trial */
             height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Стили для начальной страницы */
+        #entry-screen {
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100vh;
+            background-color: black;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: opacity 1s ease;
+        }
+
+        /* Скрытие экрана входа */
+        #entry-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Стили для основной страницы */
+        #main-screen {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             background-image: url('images/background.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             color: white;
             text-align: center;
+            transition: opacity 1s ease;
+        }
+
+        #main-screen.visible {
+            display: flex;
+            opacity: 1;
         }
 
         h1 {
@@ -41,7 +73,7 @@
         .animated-text {
             font-size: 2rem;
             font-weight: bold;
-            margin-top: 20px;  
+            margin-top: 20px;  /* отступ для текста */
         }
 
         h2 {
@@ -63,86 +95,23 @@
         .since-text:hover {
             color: white;
         }
-
-        /* Стили для стартового экрана */
-        #start-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: black;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #start-screen .enter-text {
-            font-family: 'Fatal Trial', Arial, sans-serif;
-            font-size: 3rem;
-            cursor: pointer;
-            display: inline-block;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-
-        #start-screen .enter-text:hover {
-            color: #f0f0f0;
-            transform: scale(1.1);
-        }
-
-        #start-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 1s ease-in-out;
-        }
-
-        #main-screen {
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-
-        #main-screen.visible {
-            opacity: 1;
-        }
     </style>
 </head>
 <body>
-    <!-- Стартовый экран -->
-    <div id="start-screen">
-        <span class="enter-text">Click to Enter</span>
-    </div>
+    <!-- Начальная страница -->
+    <div id="entry-screen" onclick="enterSite()">Click to Enter</div>
 
     <!-- Основная страница -->
-    <div id="main-screen" class="hidden">
-        <h1>Добро пожаловать!</h1>
+    <div id="main-screen">
+        <h1>Integra team</h1>
         <div class="animated-text" id="text"></div>
         <h2></h2>
         <div class="since-text">since 2022</div>
     </div>
 
     <script>
-        const startScreen = document.getElementById('start-screen');
-        const enterText = document.querySelector('.enter-text');
-        const mainScreen = document.getElementById('main-screen');
-        const textElement = document.getElementById('text');
-        
-        const audio = new Audio("https://track.pinkamuz.pro/download/333331b0b03436b2308c3731353332b63430310100/6ea3f09672910145b4559df195d8cd98/%C3%98fdream%20-%20Thelema%20%28slow%20reverb%29.mp3");
-        audio.loop = true;
-
-        // Переход с начального экрана на основной
-        enterText.addEventListener('click', () => {
-            startScreen.classList.add('hidden');
-            setTimeout(() => {
-                startScreen.style.display = 'none';
-                mainScreen.classList.add('visible');
-                audio.play();
-            }, 1000);
-        });
-
-        // Анимация текста
         const textStages = [
-             ["\\", "|", "/", "-"],
+               ["\\", "|", "/", "-"],
             ["\\", "|", "/", "-"],
             ["\\", "|", "/", "-"],
             ["\\", "|", "/", "-"],
@@ -305,12 +274,31 @@
         ];
 
         let i = 0;
-        const changeText = () => {
-            textElement.textContent = textStages[i][0];
-            i = (i + 1) % textStages.length;
-        };
+        const textElement = document.getElementById("text");
+
+        function changeText() {
+            textElement.textContent = textStages[i % textStages.length];
+            i++;
+        }
 
         setInterval(changeText, 100);
+
+        const entryScreen = document.getElementById("entry-screen");
+        const mainScreen = document.getElementById("main-screen");
+        const audio = new Audio("https://track.pinkamuz.pro/download/333331b0b03436b2308c3731353332b63430310100/6ea3f09672910145b4559df195d8cd98/%C3%98fdream%20-%20Thelema%20%28slow%20reverb%29.mp3");
+        audio.loop = true;
+
+        function enterSite() {
+            // Запуск музыки
+            audio.play().catch(err => console.log("Музыка не может быть воспроизведена автоматически: ", err));
+
+            // Анимация скрытия экрана входа
+            entryScreen.classList.add("hidden");
+            setTimeout(() => {
+                entryScreen.style.display = "none";
+                mainScreen.classList.add("visible");
+            }, 1000); // Задержка для плавного перехода
+        }
     </script>
 </body>
 </html>
