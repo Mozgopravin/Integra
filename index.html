@@ -9,18 +9,18 @@
     <style>
         /* Подключаем шрифт Fatal (TRIAL) Bold */
         @font-face {
-            font-family: 'Fatal Trial';
-            src: url('fonts/Fatal-TRIAL-Bold.woff2') format('woff2'),
-                 url('fonts/Fatal-TRIAL-Bold.woff') format('woff'),
-                 url('fonts/Fatal-TRIAL-Bold.ttf') format('truetype');
-            font-weight: bold;
-            font-style: normal;
+            font-family: 'Fatal Trial';  
+            src: url('fonts/Fatal-TRIAL-Bold.woff2') format('woff2'),  
+                 url('fonts/Fatal-TRIAL-Bold.woff') format('woff'),  
+                 url('fonts/Fatal-TRIAL-Bold.ttf') format('truetype'); 
+            font-weight: bold;  
+            font-style: normal;  
         }
 
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Fatal Trial', Arial, sans-serif;
+            font-family: 'Fatal Trial', Arial, sans-serif;  
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -33,31 +33,6 @@
             text-align: center;
         }
 
-        .enter-screen {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        .enter-text {
-            font-size: 3rem;
-            font-weight: bold;
-            cursor: pointer;
-            color: rgba(255, 255, 255, 0.7);
-            transition: color 0.3s ease;
-        }
-
-        .enter-text:hover {
-            color: white;
-        }
-
-        .main-screen {
-            display: none; /* Главная страница скрыта изначально */
-        }
-
         h1 {
             font-size: 6rem;
             margin: 0;
@@ -66,7 +41,7 @@
         .animated-text {
             font-size: 2rem;
             font-weight: bold;
-            margin-top: 20px;
+            margin-top: 20px;  
         }
 
         h2 {
@@ -88,58 +63,254 @@
         .since-text:hover {
             color: white;
         }
+
+        /* Стили для стартового экрана */
+        #start-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #start-screen .enter-text {
+            font-family: 'Fatal Trial', Arial, sans-serif;
+            font-size: 3rem;
+            cursor: pointer;
+            display: inline-block;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        #start-screen .enter-text:hover {
+            color: #f0f0f0;
+            transform: scale(1.1);
+        }
+
+        #start-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease-in-out;
+        }
+
+        #main-screen {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        #main-screen.visible {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
-    <!-- Стартовая страница -->
-    <div class="enter-screen" id="enterScreen">
-        <div class="enter-text" id="enterText">Click to enter</div>
+    <!-- Стартовый экран -->
+    <div id="start-screen">
+        <span class="enter-text">Click to Enter</span>
     </div>
 
-    <!-- Главная страница -->
-    <div class="main-screen" id="mainScreen">
-        <div>
-            <h1>Добро пожаловать!</h1>
-            <div class="animated-text" id="text"></div>
-            <h2></h2>
-            <div class="since-text">since 2022</div>
-        </div>
+    <!-- Основная страница -->
+    <div id="main-screen" class="hidden">
+        <h1>Добро пожаловать!</h1>
+        <div class="animated-text" id="text"></div>
+        <h2></h2>
+        <div class="since-text">since 2022</div>
     </div>
 
     <script>
-        // Ссылки на элементы
-        const enterScreen = document.getElementById("enterScreen");
-        const mainScreen = document.getElementById("mainScreen");
-        const enterText = document.getElementById("enterText");
-        const textElement = document.getElementById("text");
-
-        // Анимация текста на главной странице
-        const textStages = [
-            ["I"], ["In"], ["Int"], ["Inte"], ["Integ"], ["Integr"], ["Integra"], ["Integra t"],
-            ["Integra te"], ["Integra tea"], ["Integra team"], ["Integra team"], ["Integra tea"], ["Integra te"],
-            ["Integra t"], ["Integra"], ["Integr"], ["Integ"], ["Inte"], ["Int"], ["In"], ["I"],
-        ];
-
-        let i = 0;
-
-        function changeText() {
-            textElement.textContent = textStages[i];
-            i = (i + 1) % textStages.length;
-        }
-
-        // Обновляем текст на главной странице каждые 100 мс
-        setInterval(changeText, 100);
-
-        // Воспроизведение музыки
+        const startScreen = document.getElementById('start-screen');
+        const enterText = document.querySelector('.enter-text');
+        const mainScreen = document.getElementById('main-screen');
+        const textElement = document.getElementById('text');
+        
         const audio = new Audio("https://track.pinkamuz.pro/download/333331b0b03436b2308c3731353332b63430310100/6ea3f09672910145b4559df195d8cd98/%C3%98fdream%20-%20Thelema%20%28slow%20reverb%29.mp3");
         audio.loop = true;
 
-        // Переход на главную страницу при клике
-        enterText.addEventListener("click", () => {
-            audio.play().catch(error => console.error("Ошибка воспроизведения музыки:", error));
-            enterScreen.style.display = "none"; // Скрыть стартовую страницу
-            mainScreen.style.display = "flex"; // Показать главную страницу
+        // Переход с начального экрана на основной
+        enterText.addEventListener('click', () => {
+            startScreen.classList.add('hidden');
+            setTimeout(() => {
+                startScreen.style.display = 'none';
+                mainScreen.classList.add('visible');
+                audio.play();
+            }, 1000);
         });
+
+        // Анимация текста
+        const textStages = [
+             ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+
+            // "Mozgopravin was here" animation
+           ["M"], 
+           ["Mo"], 
+           ["Moz"], 
+           ["Mozg"],
+           ["Mozgo"], 
+           ["Mozgop"],
+           ["Mozgopr"], 
+           ["Mozgopra"],
+           ["Mozgoprav"], 
+           ["Mozgopravi"],
+           ["Mozgopravin"], 
+           ["Mozgopravin w"], 
+           ["Mozgopravin wa"],
+           ["Mozgopravin was"], 
+           ["Mozgopravin was h"], 
+           ["Mozgopravin was he"], 
+           ["Mozgopravin was her"], 
+           ["Mozgopravin was here"], 
+           ["Mozgopravin was here"],
+           ["Mozgopravin was here"],
+           ["Mozgopravin was here"],
+           ["Mozgopravin was here"],
+           ["Mozgopravin was here"],
+           ["Mozgopravin was here"],
+           ["Mozgopravin was here"],
+           ["Mozgopravin was her"],
+           ["Mozgopravin was he"],
+           ["Mozgopravin was h"],
+           ["Mozgopravin was"],
+           ["Mozgopravin wa"],
+           ["Mozgopravin w"],
+           ["Mozgopravin"],
+           ["Mozgopravi"],
+           ["Mozgoprav"],
+           ["Mozgopra"],
+           ["Mozgopr"],
+           ["Mozgop"],
+           ["Mozgo"],
+           ["Mozg"],
+           ["Moz"],
+           ["Mo"],
+           ["M"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+
+            // rnh
+            ["R"], 
+            ["Re"], 
+            ["Red"], 
+            ["RedN"], 
+            ["RedNe"], 
+            ["RedNeo"], 
+            ["RedNeon"], 
+            ["RedNeonH"], 
+            ["RedNeonHu"], 
+            ["RedNeonHub"], 
+            ["RedNeonHub "],
+            ["RedNeonHub w"], 
+            ["RedNeonHub wh"], 
+            ["RedNeonHub whe"], 
+            ["RedNeonHub wher"], 
+            ["RedNeonHub where"], 
+            ["RedNeonHub where "],
+            ["RedNeonHub where i"], 
+            ["RedNeonHub where is"], 
+            ["RedNeonHub where is "],
+            ["RedNeonHub where is y"], 
+            ["RedNeonHub where is yo"], 
+            ["RedNeonHub where is you"], 
+            ["RedNeonHub where is your"], 
+            ["RedNeonHub where is your "],
+            ["RedNeonHub where is your p"], 
+            ["RedNeonHub where is your pr"], 
+            ["RedNeonHub where is your pro"], 
+            ["RedNeonHub where is your prom"], 
+            ["RedNeonHub where is your promi"], 
+            ["RedNeonHub where is your promis"], 
+            ["RedNeonHub where is your promise"], 
+            ["RedNeonHub where is your promised"], 
+            ["RedNeonHub where is your promised "],
+            ["RedNeonHub where is your promised i"], 
+            ["RedNeonHub where is your promised in"], 
+            ["RedNeonHub where is your promised int"], 
+            ["RedNeonHub where is your promised inte"], 
+            ["RedNeonHub where is your promised intel"], 
+            ["RedNeonHub where is your promised intell"], 
+            ["RedNeonHub where is your promised intelli"], 
+            ["RedNeonHub where is your promised intellig"], 
+            ["RedNeonHub where is your promised intellige"], 
+            ["RedNeonHub where is your promised intelligen"], 
+            ["RedNeonHub where is your promised intelligence"], 
+            ["RedNeonHub where is your promised intelligence?"], 
+            ["RedNeonHub where is your promised intelligence?"],
+            ["RedNeonHub where is your promised intelligence?"],
+            ["RedNeonHub where is your promised intelligence?"],
+            ["RedNeonHub where is your promised intelligence?"],
+            ["RedNeonHub where is your promised intelligence?"],
+            ["RedNeonHub where is your promised intelligence"], 
+            ["RedNeonHub where is your promised intelligen"], 
+            ["RedNeonHub where is your promised intellige"], 
+            ["RedNeonHub where is your promised intellig"], 
+            ["RedNeonHub where is your promised intelli"], 
+            ["RedNeonHub where is your promised intell"], 
+            ["RedNeonHub where is your promised intel"], 
+            ["RedNeonHub where is your promised inte"], 
+            ["RedNeonHub where is your promised int"], 
+            ["RedNeonHub where is your promised in"], 
+            ["RedNeonHub where is your promised i"], 
+            ["RedNeonHub where is your promised "],
+            ["RedNeonHub where is your promise"], 
+            ["RedNeonHub where is your promis"], 
+            ["RedNeonHub where is your promi"], 
+            ["RedNeonHub where is your prom"], 
+            ["RedNeonHub where is your pro"], 
+            ["RedNeonHub where is your pr"], 
+            ["RedNeonHub where is your p"], 
+            ["RedNeonHub where is your "], 
+            ["RedNeonHub where is you"], 
+            ["RedNeonHub where is yo"], 
+            ["RedNeonHub where is y"], 
+            ["RedNeonHub where is "], 
+            ["RedNeonHub where"], 
+            ["RedNeonHub wher"], 
+            ["RedNeonHub whe"], 
+            ["RedNeonHub wh"], 
+            ["RedNeonHub w"], 
+            ["RedNeonHub "], 
+            ["RedNeonHu"], 
+            ["RedNeonH"], 
+            ["RedNeon"], 
+            ["RedNeo"], 
+            ["RedNe"], 
+            ["RedN"], 
+            ["Red"], 
+            ["Re"], 
+            ["R"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+            ["\\", "|", "/", "-"],
+        ];
+
+        let i = 0;
+        const changeText = () => {
+            textElement.textContent = textStages[i][0];
+            i = (i + 1) % textStages.length;
+        };
+
+        setInterval(changeText, 100);
     </script>
 </body>
 </html>
