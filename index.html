@@ -119,13 +119,13 @@
         /* Анимация при наведении */
         .social-link:hover {
             color: #8A2BE2; /* Золотистый цвет */
-            transform: scale(1.0) translateX(-50%); /* Центрируем и увеличиваем */
+            transform: scale(1.02) translateX(-49%); /* Центрируем и увеличиваем */
         }
 
         /* Изменение цвета при клике */
         .social-link:active {
             color: #00BFFF; /* Зеленый цвет */
-            transform: scale(0.8) translateX(-63%);
+            transform: scale(0.9) translateX(-56%);
         }
 
     </style>
@@ -141,7 +141,8 @@
         <h2></h2>
 
         <!-- Ссылка Social -->
-        <div class="social-link" onclick="redirectToSocial()">social link</div>
+        
+        <div class="social-link" onclick="redirectToNextPage()">social link & gallery</div>
 
         <!-- Текст Since 2022 -->
         <div class="since-text">since 2022</div>
@@ -478,6 +479,9 @@
         function redirectToSocial() {
             window.location.href = ""; // Замените ссылкой на нужный сайт
         }
+        function redirectToNextPage() {
+    window.location.href = "index2.html"; // Замените на нужный путь
+    }
     </script>
 </body>
 </html>
