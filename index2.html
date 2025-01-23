@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <link rel="icon" href="images/favicon2.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Social link & gallery</title>
     <style>
         /* Подключаем шрифт Fatal (TRIAL) Bold */
         @font-face {
-            font-family: 'Fatal Trial';  /* Имя шрифта */
-            src: url('fonts/Fatal-TRIAL-Bold.woff2') format('woff2'),  /* Шрифт в формате woff2 */
-                 url('fonts/Fatal-TRIAL-Bold.woff') format('woff'),  /* Шрифт в формате woff */
-                 url('fonts/Fatal-TRIAL-Bold.ttf') format('truetype'); /* Шрифт в формате ttf */
-            font-weight: bold;  /* Указываем, что это жирный шрифт */
-            font-style: normal;  /* Устанавливаем стиль нормальный */
+            font-family: 'Fatal Trial';
+            src: url('fonts/Fatal-TRIAL-Bold.woff2') format('woff2'),
+                 url('fonts/Fatal-TRIAL-Bold.woff') format('woff'),
+                 url('fonts/Fatal-TRIAL-Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
         }
 
         /* Общие стили */
@@ -35,7 +35,7 @@
             height: 100%;
             background: url('https://psv4.userapi.com/s/v1/d/_hCCRK_oRtH_dha0AD0_dAU4m5dUNGUpNI6Zv2znjrdN82pYqln64w_n9LVcKDPBfS3B7Dj0cdFGwvW7it0tBwRcKyFiFPzJvwZmkSrk-BgX3BqFOWe7EA/smyatenie.gif') no-repeat center center/cover;
             z-index: -1;
-            filter: brightness(0.2); /* Затемнение фона */
+            filter: brightness(0.2);
         }
 
         /* Секция контактов */
@@ -60,15 +60,22 @@
         }
 
         .social-links a {
-            text-align: center;
+            display: inline-block;
             color: #fff;
-            margin: 0 15px;
             text-decoration: none;
             font-size: 1.8rem;
+            margin: 0 15px;
+            transition: all 0.3s ease;
         }
 
         .social-links a:hover {
-            color: #ff0;
+            color: rgba(200, 0, 255, 0.9);
+            transform: scale(1.1);
+        }
+
+        .social-links a:active {
+            color: rgba(200, 0, 255, 0.9);
+            transform: scale(0.9);
         }
 
         /* Секция галереи */
@@ -106,7 +113,7 @@
             font-size: 1.5rem;
             font-weight: bold;
             color: #fff;
-            background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+            background-color: rgba(0, 0, 0, 0.5);
             padding: 5px 10px;
             border-radius: 5px;
             z-index: 10;
@@ -115,8 +122,9 @@
         }
 
         .main-label:hover {
-            background-color: rgba(200, 0, 255, 0.4); /* Изменение фона при наведении */
+            background-color: rgba(200, 0, 255, 0.4);
         }
+
         .discord {
             color: #fff;
             font-size: 1.8rem;
@@ -132,6 +140,7 @@
         <h2>Связь со мной</h2>
         <p>Мои контакты и соцсети:</p>
         <div class="social-links">
+            
             <a href="https://www.youtube.com/@MOZGOPRAVIN" target="_blank">YouTube</a>
             <a href="https://discord.gg/QMJJwQduWC" target="_blank">Discord</a>
         </div>
@@ -140,10 +149,26 @@
     <!-- Секция галереи -->
     <section class="gallery">
         <h2 class="gallery-header">Галерея проектов</h2>
-        <img src="https://sun7-19.userapi.com/impg/WXW5QRq_3-iLCUU0TFBzjuorxVF63jNPGSE-2A/ze2rQTJmHnI.jpg?size=563x751&quality=95&sign=cc991f9476aaef0c381203cc72c492c6&type=album" alt="Изображение 1">
-        <img src="https://sun7-23.userapi.com/impg/djnQ2kk5DfxVu-txOXEd_luPcBu2VDWlzJExPA/MiZNhZXGaLI.jpg?size=866x819&quality=95&sign=039735817a7dfdc720567b3f373cb1f5&type=album" alt="Изображение 2">
+        <img src="https://sun9-64.userapi.com/impf/e267sI9n8n6Ee1JZ2wtR5swbDs5mrUZSTJ4LWQ/fbyKnRKCTUo.jpg?size=300x300&quality=96&sign=eb226017ad629cf0062baf2be21dcc3a&type=audio" alt="Изображение 1">
+        <img src="https://sun9-12.userapi.com/impg/5kguKldHXVpYoJZW-Q3Nj5IQwNogWLGz8iPNdg/eH6IQQDlm_g.jpg?size=1280x720&quality=95&sign=8a33f13241c254a5a05b6212d2eefd57&type=album" alt="Изображение 2">
         <img src="https://sun7-19.userapi.com/impg/UcsB_BShqa_Rnq1m10bbrWV23DTelh1-DFX_mQ/fZFcY-QxYh8.jpg?size=1170x882&quality=95&sign=6624d97272bd08e3a91cbab632cb4a1a&type=album" alt="Изображение 3">
         <img src="https://sun9-60.userapi.com/s/v1/ig2/hN8L_5caOBaByCe7K4-aNovLAbr8_wD09h5E8_a4fhJz-y5fAzi3UFU2wWjrNw0lp24OLvZ5J54bTUpkKlmfYBmz.jpg?quality=95&as=32x40,48x60,72x90,108x135,160x200,240x300,360x450,480x600,540x675,640x800,720x900,864x1080&from=bu&u=A8PHj_GG44FZfElyfOUHapzYJeP6PVOcxqqZZmwTQIs&cs=646x807" alt="Изображение 4">
     </section>
+
+    <script>
+        // Находим все ссылки с классом "social-links a"
+        const socialLinks = document.querySelectorAll('.social-links a');
+
+        // Создаем объект аудио для звука
+        const clickSound = new Audio('sound/ui_click.mp3'); // Замените на свой звуковой файл
+
+        // Для каждой ссылки добавляем событие "click"
+        socialLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                clickSound.currentTime = 0; // Сбрасываем звук на начало
+                clickSound.play(); // Проигрываем звук
+            });
+        });
+    </script>
 </body>
 </html>
