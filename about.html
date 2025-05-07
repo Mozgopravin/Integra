@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>about</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      background: linear-gradient(to right, #161718, #0c0c0c);
+      color: #bdb7af;
+      font-family: monospace;
+      overflow-x: hidden;
+    }
+      .container {
+      padding: 5em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      filter: blur(5px);
+      animation: introFadeIn 1.5s ease-out forwards;
+    }
+     @keyframes introFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(50px);
+        filter: blur(5px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 0.1em;
+      transition: 0.3;
+    }
+    h1:hover {
+      color: #d6d5d2;
+    }
+    a {
+      font-size: 1em;
+      margin-bottom: 0.1em;
+      transition: color 0.3s;
+
+    }
+
+    a:hover {
+      color: #d6d5d2;
+    }
+     pre {
+      text-align: justify;  
+      width: 750px; 
+      padding: 0px;
+      max-width: 100%;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      height: 100%;                    
+      margin-top: 50px;                 
+      overflow-x: auto;                
+    }
+    .Mozgopravin {
+      font-size: 0.8em; 
+      margin-top: -0.7em;
+      transition: color 0.3s;
+    }
+    .Mozgopravin:hover {
+      color: #d6d5d2;
+    }
+    img {
+      transform: scale(0.5);
+      transform-origin: top center; 
+      display: block;
+      margin: 0 auto;
+    }
+    </style>
+    <div class="container">
+  <h1>about</h1>
+  <div class="Mozgopravin">looking for something?</div>
+  <pre>
+The site was created purely in fun, because I had nothing to do, and to occupy my day with something interesting was not bad, so these pages appeared, in general there was and old version of the site but it was a bit like this because I got inspiration from old layouts and then did not really understand html (now nothing has changed). In general as a portfolio to use I want to keep the site, for fuck well and maybe in the future to change this description and do something completely for Integra.
+  </pre>
+  <img src="https://i.pinimg.com/736x/ef/82/79/ef82791eff8f8252541eb0c4e90382a5.jpg">
+  </div>

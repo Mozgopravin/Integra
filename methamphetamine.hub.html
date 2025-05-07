@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>methamphetamine.hub</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      background: linear-gradient(to right, #161718, #0c0c0c);
+      color: #bdb7af;
+      font-family: monospace;
+      overflow-x: hidden;
+    }
+
+    .container {
+      padding: 5em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      filter: blur(5px);
+      animation: introFadeIn 1.5s ease-out forwards;
+    }
+
+    @keyframes introFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(50px);
+        filter: blur(5px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 0.1em;
+      transition: color 0.3s;
+    }
+
+    h1:hover {
+      color: #d6d5d2;
+    }
+    .Mozgopravin {
+      font-size: 0.8em; 
+      margin-top: -0.7em;
+      transition: color 0.3s;
+    }
+    .Mozgopravin:hover {
+      color: #d6d5d2;
+    }
+    a {
+      font-size: 1em;
+      margin-bottom: 0.1em;
+      transition: color 0.3s;
+    }
+
+    a:hover {
+      color: #d6d5d2;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 1.2em;
+      margin-top: 1em;
+    }
+
+    .tabs button {
+      background: transparent;
+      border: 1px solid #bdb7af;
+      color: #bdb7af;
+      padding: 0.5em 1em;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: monospace;
+    }
+
+    .tabs button:hover {
+      background-color: #222;
+      color: #fff;
+    }
+
+    .tab-content {
+      display: none;
+      margin-top: 2em;
+      animation: fadeInTab 0.8s ease-out;
+    }
+
+    .tab-content p {
+      margin-bottom: 1.5em;
+    }
+
+    .tab-content img {
+      margin-top: 1.5em;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeInTab {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+        filter: blur(2px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    .copy-text {
+      text-decoration: underline;
+    }
+
+    .copy-text:hover {
+      cursor: pointer;
+      color: #fff;
+    }
+    pre {
+      text-align: justify;  
+      width: 1500px; 
+      padding: 0px;
+      max-width: 100%;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      height: 100%;                    
+      margin: 0 auto;                  
+      overflow-x: auto;                
+    }
+    ul {
+      text-decoration: underline;
+    }
+    .games {
+      margin-top: 0.5em;
+    }
+    .games:hover {
+      color: #fff;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>methamphetamine.hub</h1>
+  <div class="Mozgopravin">created by Mozgopravin.</div>
+  <div class="tabs">
+    <button onclick="openTab('home')">home</button>
+    <button onclick="openTab('scripts')">script</button>
+    <button onclick="openTab('about')">tos</button>
+  </div>
+
+  <div id="home" class="tab-content active">
+    <p>welcome to the integra framework.<br>prepare for immersion.</p>
+    <ul>
+    list of supported places
+    </ul>
+    <div class="games">evade</div>
+    <div class="games">untitled tag game</div>
+    <div class="games">and much more with updates</div>
+    <img src="https://i.pinimg.com/originals/03/de/76/03de7629062b5760c440dbc636e26efa.gif">
+  </div>
+
+  <div id="scripts" class="tab-content">
+    <h3>Loadstring</h3>
+    <div class="copy-text" id="copyText" onclick="copyText()">Click here to copy loadstring</div>
+    <img src="https://github.com/Mozgopravin/Integra/blob/main/images/methamphetamine.hub.png?raw=true">
+  </div>
+
+  <div id="about" class="tab-content">
+    <pre>
+1. INTRODUCTION
+By accessing or using the methamphetamine.hub (the "Website") and/or purchasing any products or services offered by Integra, you agree to be bound by these Terms of Service ("TOS"). If you do not agree with any of these terms, you must immediately cease using this Website and its associated services.
+
+2. SOFTWARE USAGE AND RESTRICTIONS
+Integra grants you a limited, non-exclusive, and non-transferable license to use the software and services available through this Website, subject to the following terms:
+- No Refunds: All purchases are final. Integra does not offer refunds for any products or services once the transaction is completed. By purchasing our products, you acknowledge that you understand and accept this no-refund policy.
+- Anti-Cheat and Developer Restrictions: The use of the Integra script and related products is strictly prohibited for all administrators, moderators, and developers of Roblox, anti-cheat organizations, or any other entities directly involved in preventing cheating or modifying game behavior. You are not authorized to use Integra products without explicit permission from Integra if you belong to any of these groups.
+- Account Usage: You are allowed to use an account for the Integra products on one computer only. If you change or replace your computer, you must contact Integra support to review your case and allow access. Misuse of your account, such as sharing it with others or using it on multiple devices not deemed appropriate by Integra staff, may result in your account being deactivated or deleted.
+- Misuse of Software: You are prohibited from tampering with or attempting to crack the software, reverse-engineering it, or using it for unintended purposes. Any violations of these terms will result in penalties, including but not limited to the suspension of your access to Integra services.
+
+3. INTELLECTUAL PROPERTY AND THIRD-PARTY CLAIMS
+Integra holds all rights to the intellectual property associated with its software, services, and the Website. You may not claim, sell, or redistribute the Integra product or any part of it.
+Integra is not liable for any claims made by third parties regarding intellectual property infringement. In the event that you, as a consumer, face any third-party claims, you agree to hold Integra harmless and protect Integra from such claims.
+
+4. ACCOUNT TERMINATION AND VIOLATIONS
+Integra reserves the right to suspend, deactivate, or delete any account at any time for the following reasons:
+- Sharing your account with another user or device, without prior approval from Integra support.
+- Misusing the software or attempting to alter it.
+- Engaging in activities that violate the rules of our Website or forum, or acting inappropriately within the community.
+- Working for, or being associated with, any competitor or anti-cheat organization.
+
+5. NO LIABILITY
+By using the Integra products, you acknowledge and agree that Integra is not responsible for any damage or loss that may occur to your Roblox account or any related account, including but not limited to account bans, suspensions, or other penalties imposed by Roblox or any third-party entity. Integra is not liable for any misuse of your account or the use of Integra products in violation of Roblox's terms of service.
+
+6. INDEMNIFICATION
+You agree to indemnify, defend, and hold harmless Integra, its employees, contractors, and affiliates from any claims, damages, liabilities, losses, and expenses arising from your use of the Website, products, or services, or your violation of these TOS.
+
+7. CHANGES TO THESE TERMS
+Integra reserves the right to update or modify these Terms of Service at any time. Any changes will be posted on this page, and your continued use of the Website after any changes are posted will constitute your acceptance of those changes.
+
+    </pre>
+  </div>
+</div>
+
+<script>
+  function copyText() {
+  const textToCopy = "the script isn't ready yet"; 
+  
+  
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    
+    const copyButton = document.getElementById("copyText");
+    const originalText = copyButton.innerText; 
+    
+    
+    copyButton.innerText = "copied";
+    
+    
+    setTimeout(() => {
+      copyButton.innerText = originalText;
+    }, 1000);
+  });
+}
+
+  function openTab(tabId) {
+    const contents = document.querySelectorAll('.tab-content');
+    contents.forEach(c => c.classList.remove('active'));
+
+    const target = document.getElementById(tabId);
+    target.classList.add('active');
+  }
+</script>
+
+</body>
+</html>

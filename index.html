@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Integra</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: monospace;
+      background: linear-gradient(to right, #161718, #0c0c0c);
+      color: #bdb7af;
+      text-align: center;
+    }
+
+    
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(to right, #161718, #0c0c0c);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 9999;
+    }
+
+    #loading-text {
+      font-size: 1em;
+      color: #bdb7af;
+      animation: blink 1.5s infinite;
+      cursor: default;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    #preloader.ready #loading-text {
+      animation: blink 0.5s infinite;
+      cursor: pointer;
+    }
+
+    /* Основной контент */
+    #main-content {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 0.5em;
+      color: #bdb7af;
+      transition: color 0.2s ease;
+    }
+
+    h1:hover {
+      color: #cfcfcd;
+      cursor: pointer;
+    }
+
+    p.description {
+      font-size: 1em;
+      margin-bottom: 2em;
+    }
+
+    .typewriter-line {
+      display: inline;
+      font-size: 1em;
+      white-space: nowrap;
+    }
+
+    .typed-cursor {
+      font-size: 1em;
+      vertical-align: baseline;
+      line-height: 1;
+    }
+
+    .links {
+      margin-top: -1.9em;
+    }
+
+    .links a {
+      color: #bdb7af;
+      margin: 0 0.1em;
+      text-decoration: underline;
+    }
+
+    .links a:hover {
+      color: #d6d5d2;
+    }
+
+    /* Анимации появления */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      opacity: 0;
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    .delay-1 { animation-delay: 2.9s; }
+    .delay-2 { animation-delay: 3.8s; }
+    .delay-3 { animation-delay: 3.8s; }
+    .delay-4 { animation-delay: 3.8s; }
+  </style>
+</head>
+<body>
+
+  <!-- Заставка -->
+  <div id="preloader">
+    <div id="loading-text">Loading</div>
+  </div>
+
+  <!-- Основной контент -->
+  <div id="main-content">
+    <h1 class="fade-in delay-1">INTEGRA welcomes</h1>
+    <p class="description fade-in delay-2">Among countless faces, I try to stand out and be memorable.</p>
+    <p class="description fade-in delay-3">
+      <span class="typewriter-line" id="typElement"></span>
+    </p>
+
+    <div class="links fade-in delay-4">
+      <a href="about.html">about</a>
+      <a href="methamphetamine.hub.html">methamphetamine.hub</a>
+      <a href="#">social</a>
+    </div>
+  </div>
+
+  <!-- Аудио -->
+  <audio id="bg-music" loop src="https://track.pinkamuz.pro/download/3333b43433323430318f3731353332b63434330200/6ea3f09672910145b4559df195d8cd98/%C3%98fdream%20-%20Thelema%20%5B1%20HOUR%20SLOW%20REVERB%5D.mp3"></audio>
+
+  <!-- Typed.js -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+  <!-- Скрипт загрузки -->
+  <script>
+    window.addEventListener("load", () => {
+      const preloader = document.getElementById("preloader");
+      const loadingText = document.getElementById("loading-text");
+      const music = document.getElementById("bg-music");
+
+      // Заставка готова
+      loadingText.innerHTML = "click<br>to<br>enter";
+      preloader.classList.add("ready");
+
+      loadingText.addEventListener("click", () => {
+        // Скрыть заставку, показать контент
+        preloader.style.display = "none";
+        document.getElementById("main-content").style.display = "flex";
+
+        // Запустить анимации
+        document.querySelectorAll(".fade-in").forEach(el => {
+          el.style.animationPlayState = 'running';
+        });
+
+        // Воспроизвести музыку
+        music.volume = 0.4; // громкость
+        music.play().catch(err => {
+          console.warn("Autoplay error:", err);
+        });
+
+        // Запустить Typed.js
+        new Typed("#typElement", {
+          strings: [
+            "Hello from Gmod",
+            "",
+            "Mozgopravin was here",
+            "",
+            "owning since 2022",
+            "",
+            "ur server downed",
+            "",
+            "RedNeonHub where is your promised intelligence?",
+            "",
+            "enraged?",
+            "",
+            "premium software",
+            "",
+            "please let me out it's cold in here",
+            "",
+            "stop using inferior script",
+            "",
+            "get good",
+            "",
+            "Loadstring..........",
+            "",
+            "VVVVVVVVVVVVVVVVVVVVVVVVVVV"
+          ],
+          typeSpeed: 90,
+          backSpeed: 45,
+          backDelay: 2500,
+          pauseFor: 5000,
+          loop: true,
+          showCursor: true,
+          cursorChar: '|'
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
