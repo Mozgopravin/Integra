@@ -21,11 +21,13 @@
     }
     
     .container {
-      padding: 5em;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       text-align: center;
+      padding: 2em;
       filter: blur(5px);
       animation: introFadeIn 1.5s ease-out forwards;
     }
@@ -61,18 +63,6 @@
 
     a:hover {
       color: #d6d5d2;
-    }
-    
-    pre {
-      text-align: justify;  
-      width: 750px; 
-      padding: 0px;
-      max-width: 100%;
-      word-wrap: break-word;
-      white-space: pre-wrap;
-      height: 100%;                    
-      margin-top: 50px;                 
-      overflow-x: auto;                
     }
     
     .Mozgopravin {
@@ -124,10 +114,6 @@
   <div class="container">
     <h1>Загрузка сервера</h1>
     <div class="Mozgopravin"><span id="typed"></span></div>
-    
-    <pre>
-
-    </pre>
     
     <div class="info" id="info">
       <div class="row"><div class="label">Сервер</div><div class="value" id="server-name">—</div></div>
