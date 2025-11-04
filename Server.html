@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <title>Загрузка сервера</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      background: linear-gradient(to right, #161718, #0c0c0c);
+      color: #bdb7af;
+      font-family: monospace;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      padding: 5em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      filter: blur(5px);
+      animation: introFadeIn 1.5s ease-out forwards;
+    }
+    
+    @keyframes introFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(50px);
+        filter: blur(5px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+    
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 0.1em;
+      transition: 0.3s;
+    }
+    
+    h1:hover {
+      color: #d6d5d2;
+    }
+    
+    a {
+      font-size: 1em;
+      margin-bottom: 0.1em;
+      transition: color 0.3s;
+    }
+
+    a:hover {
+      color: #d6d5d2;
+    }
+    
+    pre {
+      text-align: justify;  
+      width: 750px; 
+      padding: 0px;
+      max-width: 100%;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      height: 100%;                    
+      margin-top: 50px;                 
+      overflow-x: auto;                
+    }
+    
+    .Mozgopravin {
+      font-size: 0.8em; 
+      margin-top: -0.7em;
+      transition: color 0.3s;
+    }
+    
+    .Mozgopravin:hover {
+      color: #d6d5d2;
+    }
+    
+    /* Музыка играет автоматически — отдельные кнопки не нужны */
+    
+    /* Информация о сервере и статус */
+    .info {
+      margin-top: 24px;
+      width: 750px;
+      max-width: 100%;
+      text-align: left;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .label { color: #8a847d; }
+    .value { color: #d6d5d2; }
+
+    .progress {
+      margin-top: 20px;
+      width: 750px;
+      max-width: 100%;
+      height: 10px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #6aa7ff, #8b6cff);
+      transition: width 0.2s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Загрузка сервера</h1>
+    <div class="Mozgopravin"><span id="typed"></span></div>
+    
+    <pre>
+
+    </pre>
+    
+    <div class="info" id="info">
+      <div class="row"><div class="label">Сервер</div><div class="value" id="server-name">—</div></div>
+      <div class="row"><div class="label">Карта</div><div class="value" id="map-name">—</div></div>
+      <div class="row"><div class="label">Режим</div><div class="value" id="game-mode">—</div></div>
+      <div class="row"><div class="label">Игроки</div><div class="value" id="players">—</div></div>
+      <div class="row"><div class="label">Статус</div><div class="value" id="status">Ожидание…</div></div>
+      <div class="row"><div class="label">Файлы</div><div class="value"><span id="files-needed">0</span>/<span id="files-total">0</span></div></div>
+      <div class="row"><div class="label">Текущий файл</div><div class="value" id="current-file">—</div></div>
+    </div>
+
+    <div class="progress" aria-label="Прогресс загрузки">
+      <div class="bar" id="progress-bar"></div>
+    </div>
+    
+    
+  </div>
+  
+  <audio id="bgMusic" loop autoplay preload="auto">
+    <source src="https://github.com/Mozgopravin/Integra/raw/refs/heads/main/sound/Ofdream%20-%20Thelema%20x%20Metamorphosis--effiroom.ru.ogg" type="audio/ogg">
+  </audio>
+  
+  <!-- Typed.js (анимированный текст) -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js" defer></script>
+
+  <script>
+    // Автовоспроизведение музыки
+    document.addEventListener('DOMContentLoaded', () => {
+      const audio = document.getElementById('bgMusic');
+      if (audio) {
+        // В среде загрузочного экрана GMod автоплей разрешён
+        audio.play().catch(() => {});
+      }
+      
+      // Инициализация Typed.js
+      if (window.Typed) {
+        new window.Typed('#typed', {
+          strings: [
+            "Hello from Gmod",
+            "",
+            "Mozgopravin was here",
+            "",
+            "owning since 2022",
+            "",
+            "ur server downed",
+            "",
+            "RedNeonHub where is your promised intelligence?",
+            "",
+            "enraged?",
+            "",
+            "premium software",
+            "",
+            "please let me out it's cold in here",
+            "",
+            "stop using inferior script",
+            "",
+            "get good",
+            "",
+            "Loadstring..........",
+            "",
+            "VVVVVVVVVVVVVVVVVVVVVVVVVVV"
+          ],
+          typeSpeed: 90,
+          backSpeed: 45,
+          backDelay: 2500,
+          pauseFor: 5000,
+          loop: true,
+          showCursor: true,
+          cursorChar: '|'
+        });
+      }
+    });
+    
+    // ===== GMod Loading Screen API =====
+    const loadingState = { total: 0, needed: 0 };
+    
+    function setText(id, text) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text ?? '—';
+    }
+    
+    function updateProgress() {
+      const { total, needed } = loadingState;
+      const done = Math.max(0, total - needed);
+      const percent = total > 0 ? Math.min(100, Math.max(0, (done / total) * 100)) : 0;
+      const bar = document.getElementById('progress-bar');
+      if (bar) bar.style.width = percent + '%';
+      setText('files-total', String(total));
+      setText('files-needed', String(Math.max(0, needed)));
+    }
+    
+    function getQueryParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+    
+    // Обязательные функции, вызываемые Garry's Mod
+    window.GameDetails = function(serverName, serverURL, mapName, maxPlayers, steamID, gamemode, volume, language) {
+      setText('server-name', serverName);
+      setText('server-url', serverURL);
+      setText('map-name', mapName);
+      setText('game-mode', gamemode);
+      setText('players', maxPlayers);
+      setText('steam-id', steamID);
+      
+      // Настроить громкость музыки в соответствии с snd_musicvolume (0..1)
+      const audio = document.getElementById('bgMusic');
+      if (audio) {
+        const vol = typeof volume === 'number' ? Math.max(0, Math.min(1, volume)) : undefined;
+        if (vol !== undefined) audio.volume = vol;
+      }
+    };
+    
+    window.SetFilesTotal = function(total) {
+      loadingState.total = Number(total) || 0;
+      updateProgress();
+    };
+    
+    window.SetFilesNeeded = function(needed) {
+      loadingState.needed = Number(needed) || 0;
+      updateProgress();
+    };
+    
+    window.DownloadingFile = function(fileName) {
+      setText('current-file', fileName || '—');
+    };
+    
+    window.SetStatusChanged = function(status) {
+      setText('status', status || '—');
+    };
+    
+    // Фолбэк: если страница открыта в браузере, подставить из query (?SteamId=&Map=)
+    (function bootstrapFromQuery() {
+      const map = getQueryParam('Map');
+      const sid = getQueryParam('SteamId');
+      if (map) setText('map-name', map);
+      if (sid) setText('steam-id', sid);
+    })();
+  </script>
+</body>
+</html>
