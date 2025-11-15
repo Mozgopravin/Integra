@@ -14,11 +14,25 @@
 
     body, html {
       height: 100%;
+      width: 100%;
       background: linear-gradient(to right, #161718, #0c0c0c);
       color: #bdb7af;
       font-family: monospace;
-      overflow-x: hidden;
-      position: relative;
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+    
+    /* Скрыть scrollbar для всех браузеров */
+    body::-webkit-scrollbar,
+    html::-webkit-scrollbar {
+      display: none;
+    }
+    
+    body {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
     
     /* Фоновое изображение с анимацией */
