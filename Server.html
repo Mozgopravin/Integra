@@ -36,7 +36,8 @@
     }
     
     /* Фоновое изображение с анимацией */
-    .bg-image {
+    body::after {
+      content: '';
       position: fixed;
       top: 0;
       left: 0;
@@ -114,7 +115,16 @@
     h1:hover {
       color: #d6d5d2;
     }
+    h2 {
+      font-size: 1em;
+      margin-bottom: 0.1em;
+      transition: 0.3s;
+    }
     
+    h2:hover {
+      color: #d6d5d2;
+    }
+
     a {
       font-size: 1em;
       margin-bottom: 0.1em;
@@ -126,8 +136,8 @@
     }
     
     .Mozgopravin {
-      font-size: 0.8em; 
-      margin-top: -0.7em;
+      font-size: 1.3em; 
+      margin-top: 10em;
       transition: color 0.3s;
     }
     
@@ -171,10 +181,10 @@
   </style>
 </head>
 <body>
-  <div class="bg-image"></div>
   <div class="container">
-    <h1>Загрузка сервера</h1>
-    <div class="Mozgopravin"><span id="typed"></span></div>
+    <h1>Добро пожаловать!</h1>
+    <h2>Загрузка сервера</h2>
+    
     
     <div class="info" id="info">
       <div class="row"><div class="label">Сервер</div><div class="value" id="server-name">—</div></div>
@@ -182,19 +192,21 @@
       <div class="row"><div class="label">Режим</div><div class="value" id="game-mode">—</div></div>
       <div class="row"><div class="label">Игроки</div><div class="value" id="players">—</div></div>
       <div class="row"><div class="label">Статус</div><div class="value" id="status">Ожидание…</div></div>
-      <div class="row"><div class="label">Файлы</div><div class="value"><span id="files-needed">0</span>/<span id="files-total">0</span></div></div>
+      <div class="row"><div class="label">Файлы</div><div class="value"><span id="files-needed">-</span>/<span id="files-total">-</span></div></div>
       <div class="row"><div class="label">Текущий файл</div><div class="value" id="current-file">—</div></div>
     </div>
 
     <div class="progress" aria-label="Прогресс загрузки">
       <div class="bar" id="progress-bar"></div>
     </div>
+
+    <div class="Mozgopravin"><span id="typed"></span></div>
     
     
   </div>
   
   <audio id="bgMusic" loop autoplay preload="auto">
-    <!-- source src="https://github.com/Mozgopravin/Integra/raw/refs/heads/main/sound/Ofdream%20-%20Thelema%20x%20Metamorphosis--effiroom.ru.ogg" type="audio/ogg">
+    <source src="https://github.com/Mozgopravin/Integra/raw/refs/heads/main/sound/Ofdream%20-%20Thelema%20x%20Metamorphosis--effiroom.ru.ogg" type="audio/ogg">
   </audio>
   
   <!-- Typed.js (анимированный текст) -->
@@ -213,32 +225,32 @@
       if (window.Typed) {
         new window.Typed('#typed', {
           strings: [
-            "Hello from Gmod",
+            "Подстригаем газон что бы ваши ножки не цеплялись за травку",
             "",
-            "Mozgopravin was here",
+            "Ускоряем загрузку",
             "",
-            "owning since 2022",
+            "Решаем серверные проблемы",
             "",
-            "ur server downed",
+            "Стараемся удивить вас",
             "",
-            "RedNeonHub where is your promised intelligence?",
+            "Добавляем отсылки",
             "",
-            "enraged?",
+            "Увиличиваем мощность сервера",
             "",
-            "premium software",
+            "Заставляем админа потрогать травку",
             "",
-            "please let me out it's cold in here",
+            "смотрим код сервера",
             "",
-            "stop using inferior script",
+            "ахуеваем от кода сервера",
             "",
-            "get good",
+            "повторяем стихи пушкина",
             "",
-            "Loadstring..........",
+            "решаем вопрос с глобальным потеплением",
             "",
             "VVVVVVVVVVVVVVVVVVVVVVVVVVV"
           ],
-          typeSpeed: 90,
-          backSpeed: 45,
+          typeSpeed: 45,
+          backSpeed: 20,
           backDelay: 2500,
           pauseFor: 5000,
           loop: true,
@@ -316,4 +328,3 @@
   </script>
 </body>
 </html>
-
