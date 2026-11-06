@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0b0d">
+  <meta name="description" content="INTEGRA — personal page.">
   <title>Integra</title>
   <link rel="icon" href="favicon.ico">
+
   <style>
     * {
       margin: 0;
@@ -11,8 +15,10 @@
       box-sizing: border-box;
     }
 
-    body, html {
+    html, body {
+      width: 100%;
       height: 100%;
+      min-height: 100%;
       font-family: monospace;
       background-color: #0a0b0d;
       color: #bdb7af;
@@ -21,34 +27,53 @@
       position: relative;
     }
 
-    /* Фоновый WebGL-шейдер на весь экран */
     .reflect-bg-canvas {
       position: fixed;
       inset: 0;
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
       z-index: 0;
       pointer-events: none;
     }
 
-    /* Заставка / Прелоадер */
+    #glcanvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .shader-overlay {
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      pointer-events: none;
+    }
+
+    /* Preloader */
     #preloader {
       position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
+      inset: 0;
       background: radial-gradient(circle at center, #151618 0%, #0a0b0c 100%);
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
       z-index: 9999;
-      transition: opacity 0.6s ease;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+
+    #preloader.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
     }
 
     #loading-text {
       font-size: 1em;
+      line-height: 1.1;
       color: #bdb7af;
       animation: blink 1.5s infinite;
       cursor: default;
@@ -65,7 +90,7 @@
       cursor: pointer;
     }
 
-    /* Основной контент */
+    /* Main content */
     #main-content {
       position: relative;
       z-index: 10;
@@ -73,7 +98,9 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100%;
+      width: 100%;
+      min-height: 100%;
+      padding: 24px;
     }
 
     h1 {
@@ -90,6 +117,7 @@
     }
 
     p.description {
+      max-width: 100%;
       font-size: 1em;
       margin-bottom: 2em;
     }
@@ -97,7 +125,8 @@
     .typewriter-line {
       display: inline;
       font-size: 1em;
-      white-space: nowrap;
+      white-space: normal;
+      overflow-wrap: anywhere;
     }
 
     .typed-cursor {
@@ -121,13 +150,12 @@
       color: #ffffff;
     }
 
-    .links a2 {
+    .links .separator {
       color: #66635f;
       margin: 0 0.1em;
       user-select: none;
     }
 
-    /* Анимации появления */
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -147,27 +175,54 @@
     .delay-1 { animation-delay: 2.5s; }
     .delay-2 { animation-delay: 5.3s; }
     .delay-3 { animation-delay: 5.3s; }
-    .delay-4 { animation-delay: 5.3s; } 
+    .delay-4 { animation-delay: 5.3s; }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: clamp(1.8rem, 8vw, 2.5em);
+      }
+
+      p.description {
+        font-size: 0.9em;
+        line-height: 1.5;
+      }
+
+      .links {
+        margin-top: -1.4em;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #loading-text,
+      #preloader.ready #loading-text {
+        animation: none;
+      }
+
+      .fade-in {
+        animation-duration: 0.01ms;
+      }
+
+      #preloader {
+        transition-duration: 0.01ms;
+      }
+    }
   </style>
 </head>
-<body>
 
-  <!-- WebGL Reflect Background -->
-  <div class="reflect-bg-canvas" id="canvas-container">
+<body>
+  <!-- WebGL background -->
+  <div class="reflect-bg-canvas" id="canvas-container" aria-hidden="true">
     <canvas id="glcanvas"></canvas>
-    <div style="position: absolute; inset: 0; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);"></div>
+    <div class="shader-overlay"></div>
   </div>
 
-  <!-- Фоновая сетка поверх шейдера -->
-  <div class="bg-grid"></div>
-
-  <!-- Заставка -->
+  <!-- Preloader -->
   <div id="preloader">
     <div id="loading-text">Loading</div>
   </div>
 
-  <!-- Основной контент -->
-  <div id="main-content">
+  <!-- Main content -->
+  <main id="main-content">
     <h1 class="fade-in delay-1">INTEGRA welcomes</h1>
     <p class="description fade-in delay-2">Among countless faces, I try to stand out and be memorable.</p>
     <p class="description fade-in delay-3">
@@ -176,31 +231,60 @@
 
     <div class="links fade-in delay-4">
       <a href="about.html">about</a>
-      <a2>---</a2>
+      <span class="separator" aria-hidden="true">---</span>
       <a href="social.html">social</a>
     </div>
-  </div>
+  </main>
 
-  <!-- Аудио -->
-  <audio id="bg-music" loop src="https://github.com/Mozgopravin/Integra/raw/refs/heads/main/sound/main.mp3"></audio>
+  <!-- Audio preloads during the loading screen; playback starts after entry -->
+  <audio id="bg-music" loop preload="auto"
+    src="https://github.com/Mozgopravin/Integra/raw/refs/heads/main/sound/main.mp3"></audio>
 
-  <!-- Typed.js -->
-  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <!-- Defer keeps HTML parsing from waiting for Typed.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
-  <!-- Инициализация Reflect Background WebGL-шейдера -->
   <script>
-    (function initReflectShader() {
+    (() => {
+      "use strict";
+
       const canvas = document.getElementById("glcanvas");
-      const gl = canvas.getContext("webgl");
-      if (!gl) return;
+      const preloader = document.getElementById("preloader");
+      const loadingText = document.getElementById("loading-text");
+      const mainContent = document.getElementById("main-content");
+      const music = document.getElementById("bg-music");
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      const gl = canvas.getContext("webgl", {
+        alpha: false,
+        antialias: false,
+        depth: false,
+        stencil: false,
+        powerPreference: "low-power"
+      });
+
+      let program = null;
+      let animationFrame = 0;
+      let hasEntered = false;
+      let isPageVisible = !document.hidden;
+      let elapsedBeforePause = 0;
+      let animationStartedAt = 0;
+      let lastWidth = 0;
+      let lastHeight = 0;
+      let typedStarted = false;
 
       const VERTEX_SRC = `
         attribute vec4 a_position;
-        void main() { gl_Position = a_position; }
+        void main() {
+          gl_Position = a_position;
+        }
       `;
 
       const FRAGMENT_SRC = `
         precision highp float;
+
         uniform vec2 iResolution;
         uniform float iTime;
         uniform float u_speed;
@@ -213,135 +297,222 @@
         #define MAX_ITER 8
 
         void mainImage(out vec4 fragColor, in vec2 fragCoord) {
-            float time = iTime * u_speed + 23.0;
-            vec2 uv = fragCoord.xy / iResolution.xy;
+          float time = iTime * u_speed + 23.0;
+          vec2 uv = fragCoord.xy / iResolution.xy;
 
-            vec2 p = mod(uv * TAU * u_scale, TAU) - 250.0;
-            vec2 i = vec2(p);
-            float c = 1.0;
-            float inten = 0.005;
-            float used = 0.0;
+          vec2 p = mod(uv * TAU * u_scale, TAU) - 250.0;
+          vec2 i = p;
+          float c = 1.0;
+          float inten = 0.005;
+          float used = 0.0;
 
-            for (int n = 0; n < MAX_ITER; n++) {
-                if (float(n) >= u_iterations) break;
-                float t = time * (1.0 - (3.5 / float(n + 1)));
-                i = p + vec2(
-                    cos(t - i.x) + sin(t + i.y),
-                    sin(t - i.y) + cos(t + i.x)
-                );
-                float sx = sin(i.x + t) / inten;
-                float sy = cos(i.y + t) / inten;
-                sx = (sx >= 0.0 ? 1.0 : -1.0) * max(abs(sx), 0.05);
-                sy = (sy >= 0.0 ? 1.0 : -1.0) * max(abs(sy), 0.05);
-                c += 1.0 / length(vec2(p.x / sx, p.y / sy));
-                used += 1.0;
-            }
+          for (int n = 0; n < MAX_ITER; n++) {
+            if (float(n) >= u_iterations) break;
 
-            c /= max(used, 1.0);
-            c = 1.17 - pow(c, 1.4);
+            float t = time * (1.0 - (3.5 / float(n + 1)));
+            i = p + vec2(
+              cos(t - i.x) + sin(t + i.y),
+              sin(t - i.y) + cos(t + i.x)
+            );
 
-            float lum = pow(abs(c), u_contrast);
-            vec3 colour = clamp(u_tint * lum * 2.0, 0.0, 1.0);
+            float sx = sin(i.x + t) / inten;
+            float sy = cos(i.y + t) / inten;
 
-            fragColor = vec4(colour, 1.0);
+            sx = (sx >= 0.0 ? 1.0 : -1.0) * max(abs(sx), 0.05);
+            sy = (sy >= 0.0 ? 1.0 : -1.0) * max(abs(sy), 0.05);
+
+            c += 1.0 / length(vec2(p.x / sx, p.y / sy));
+            used += 1.0;
+          }
+
+          c /= max(used, 1.0);
+          c = 1.17 - pow(c, 1.4);
+
+          float lum = pow(abs(c), u_contrast);
+          vec3 colour = clamp(u_tint * lum * 2.0, 0.0, 1.0);
+
+          fragColor = vec4(colour, 1.0);
         }
 
-        void main() { mainImage(gl_FragColor, gl_FragCoord.xy); }
+        void main() {
+          mainImage(gl_FragColor, gl_FragCoord.xy);
+        }
       `;
 
-      function compileShader(type, src) {
+      function compileShader(type, source) {
         const shader = gl.createShader(type);
-        gl.shaderSource(shader, src);
+        if (!shader) {
+          throw new Error("Unable to create WebGL shader.");
+        }
+
+        gl.shaderSource(shader, source);
         gl.compileShader(shader);
+
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+          const message = gl.getShaderInfoLog(shader) || "Unknown shader error";
+          gl.deleteShader(shader);
+          throw new Error(message);
+        }
+
         return shader;
       }
 
-      const program = gl.createProgram();
-      gl.attachShader(program, compileShader(gl.VERTEX_SHADER, VERTEX_SRC));
-      gl.attachShader(program, compileShader(gl.FRAGMENT_SHADER, FRAGMENT_SRC));
-      gl.linkProgram(program);
-      gl.useProgram(program);
-
-      const buffer = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-      gl.bufferData(
-        gl.ARRAY_BUFFER,
-        new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
-        gl.STATIC_DRAW
-      );
-
-      const posLoc = gl.getAttribLocation(program, "a_position");
-      gl.enableVertexAttribArray(posLoc);
-      gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
-
-      const uResolution = gl.getUniformLocation(program, "iResolution");
-      const uTime = gl.getUniformLocation(program, "iTime");
-      const uSpeed = gl.getUniformLocation(program, "u_speed");
-      const uTint = gl.getUniformLocation(program, "u_tint");
-      const uScale = gl.getUniformLocation(program, "u_scale");
-      const uContrast = gl.getUniformLocation(program, "u_contrast");
-      const uIterations = gl.getUniformLocation(program, "u_iterations");
-
-      // Серые тона палитры Integra: #bdb7af (189/255, 183/255, 175/255)
-      const r = 50 / 255, g = 50 / 255, b = 50 / 255;
-      const speed = (10 / 100) * 0.5;
-      const scale = 0.5;
-      const contrast = 16.0;
-      const iterations =4.0;
-
-      const startTime = performance.now();
-
-      function render() {
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        const bw = Math.max(1, Math.round(window.innerWidth * dpr));
-        const bh = Math.max(1, Math.round(window.innerHeight * dpr));
-
-        if (canvas.width !== bw || canvas.height !== bh) {
-          canvas.width = bw;
-          canvas.height = bh;
-          gl.viewport(0, 0, bw, bh);
+      function initializeWebGL() {
+        if (!gl) {
+          console.warn("WebGL is not supported. Using the fallback background.");
+          return false;
         }
 
-        const t = (performance.now() - startTime) / 1000;
+        try {
+          const vertexShader = compileShader(gl.VERTEX_SHADER, VERTEX_SRC);
+          const fragmentShader = compileShader(gl.FRAGMENT_SHADER, FRAGMENT_SRC);
 
-        gl.uniform2f(uResolution, bw, bh);
-        gl.uniform1f(uTime, t);
-        gl.uniform1f(uSpeed, speed);
-        gl.uniform3f(uTint, r, g, b);
-        gl.uniform1f(uScale, scale);
-        gl.uniform1f(uContrast, contrast);
-        gl.uniform1f(uIterations, iterations);
+          program = gl.createProgram();
+          if (!program) {
+            throw new Error("Unable to create WebGL program.");
+          }
 
-        gl.drawArrays(gl.TRIANGLES, 0, 6);
-        requestAnimationFrame(render);
+          gl.attachShader(program, vertexShader);
+          gl.attachShader(program, fragmentShader);
+          gl.linkProgram(program);
+
+          gl.deleteShader(vertexShader);
+          gl.deleteShader(fragmentShader);
+
+          if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            throw new Error(gl.getProgramInfoLog(program) || "WebGL link failed.");
+          }
+
+          gl.useProgram(program);
+
+          const buffer = gl.createBuffer();
+          gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+          gl.bufferData(
+            gl.ARRAY_BUFFER,
+            new Float32Array([
+              -1, -1, 1, -1, -1, 1,
+              -1, 1, 1, -1, 1, 1
+            ]),
+            gl.STATIC_DRAW
+          );
+
+          const positionLocation = gl.getAttribLocation(program, "a_position");
+          gl.enableVertexAttribArray(positionLocation);
+          gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+          return true;
+        } catch (error) {
+          console.error("WebGL initialization failed:", error);
+          program = null;
+          return false;
+        }
       }
 
-      render();
-    })();
-  </script>
+      const webglAvailable = initializeWebGL();
 
-  <!-- Скрипт загрузки и перехода -->
-  <script>
-    window.addEventListener("load", () => {
-      const preloader = document.getElementById("preloader");
-      const loadingText = document.getElementById("loading-text");
-      const music = document.getElementById("bg-music");
+      const uniforms = webglAvailable ? {
+        resolution: gl.getUniformLocation(program, "iResolution"),
+        time: gl.getUniformLocation(program, "iTime"),
+        speed: gl.getUniformLocation(program, "u_speed"),
+        tint: gl.getUniformLocation(program, "u_tint"),
+        scale: gl.getUniformLocation(program, "u_scale"),
+        contrast: gl.getUniformLocation(program, "u_contrast"),
+        iterations: gl.getUniformLocation(program, "u_iterations")
+      } : null;
 
-      loadingText.innerHTML = "click<br>to<br>enter";
-      preloader.classList.add("ready");
+      // Preserve the original Integra shader appearance and values.
+      const shaderSettings = {
+        red: 50 / 255,
+        green: 50 / 255,
+        blue: 50 / 255,
+        speed: 0.05,
+        scale: 0.5,
+        contrast: 16.0,
+        iterations: 4.0
+      };
 
-      loadingText.addEventListener("click", () => {
-        preloader.style.opacity = "0";
-        setTimeout(() => {
-          preloader.style.display = "none";
-        }, 500);
+      // WebGL uniforms default to zero. Set the shader's fixed parameters explicitly.
+      if (webglAvailable) {
+        gl.uniform1f(uniforms.speed, shaderSettings.speed);
+        gl.uniform3f(
+          uniforms.tint,
+          shaderSettings.red,
+          shaderSettings.green,
+          shaderSettings.blue
+        );
+        gl.uniform1f(uniforms.scale, shaderSettings.scale);
+        gl.uniform1f(uniforms.contrast, shaderSettings.contrast);
+        gl.uniform1f(uniforms.iterations, shaderSettings.iterations);
+      }
 
-        document.getElementById("main-content").style.display = "flex";
+      function resizeCanvas() {
+        if (!webglAvailable) return;
 
-        music.volume = 0.4;
-        music.play().catch(err => {
-          console.warn("Autoplay error:", err);
-        });
+        // Lower pixel density on small screens to reduce GPU workload.
+        const isSmallScreen = window.matchMedia("(max-width: 700px)").matches;
+        const dprLimit = isSmallScreen ? 1.25 : 2;
+        const dpr = Math.min(window.devicePixelRatio || 1, dprLimit);
+
+        const width = Math.max(1, Math.round(window.innerWidth * dpr));
+        const height = Math.max(1, Math.round(window.innerHeight * dpr));
+
+        if (width === lastWidth && height === lastHeight) return;
+
+        lastWidth = width;
+        lastHeight = height;
+
+        canvas.width = width;
+        canvas.height = height;
+        gl.viewport(0, 0, width, height);
+        gl.uniform2f(uniforms.resolution, width, height);
+      }
+
+      function drawFrame(timeSeconds) {
+        if (!webglAvailable) return;
+
+        gl.uniform1f(uniforms.time, timeSeconds);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+      }
+
+      function render() {
+        if (!hasEntered || !isPageVisible || !webglAvailable) return;
+
+        const now = performance.now();
+        const elapsed = elapsedBeforePause + (now - animationStartedAt) / 1000;
+        drawFrame(elapsed);
+
+        if (!prefersReducedMotion) {
+          animationFrame = requestAnimationFrame(render);
+        }
+      }
+
+      function startRendering() {
+        if (!hasEntered || !isPageVisible || !webglAvailable) return;
+
+        cancelAnimationFrame(animationFrame);
+        animationStartedAt = performance.now();
+
+        if (prefersReducedMotion) {
+          drawFrame(elapsedBeforePause);
+        } else {
+          animationFrame = requestAnimationFrame(render);
+        }
+      }
+
+      function stopRendering() {
+        if (animationFrame) {
+          cancelAnimationFrame(animationFrame);
+          animationFrame = 0;
+        }
+
+        if (hasEntered && !prefersReducedMotion) {
+          elapsedBeforePause += (performance.now() - animationStartedAt) / 1000;
+        }
+      }
+
+      function startTypedText() {
+        if (typedStarted || typeof window.Typed === "undefined") return;
+        typedStarted = true;
 
         new Typed("#typElement", {
           strings: [
@@ -375,11 +546,71 @@
           pauseFor: 5000,
           loop: true,
           showCursor: true,
-          cursorChar: '|'
+          cursorChar: "|"
         });
-      });
-    });
-  </script>
+      }
 
+      function enterSite() {
+        if (hasEntered) return;
+        hasEntered = true;
+
+        preloader.classList.add("is-hidden");
+        mainContent.style.display = "flex";
+
+        resizeCanvas();
+        startRendering();
+
+        music.volume = 0.4;
+        music.play().catch(error => {
+          console.warn("Audio playback was prevented:", error);
+        });
+
+        startTypedText();
+      }
+
+      // Wait until the page and deferred scripts are ready.
+      window.addEventListener("load", () => {
+        loadingText.innerHTML = "click<br>to<br>enter";
+        preloader.classList.add("ready");
+
+        // Begin downloading the soundtrack during the loading screen.
+        // Playback still waits for the visitor's click on "click to enter".
+        music.load();
+      }, { once: true });
+
+      loadingText.addEventListener("click", enterSite);
+
+      window.addEventListener("resize", () => {
+        resizeCanvas();
+        if (hasEntered && isPageVisible && prefersReducedMotion) {
+          drawFrame(elapsedBeforePause);
+        }
+      }, { passive: true });
+
+      document.addEventListener("visibilitychange", () => {
+        isPageVisible = !document.hidden;
+
+        if (!isPageVisible) {
+          stopRendering();
+        } else if (hasEntered) {
+          resizeCanvas();
+          startRendering();
+        }
+      });
+
+      document.addEventListener("contextmenu", event => {
+      });
+
+      canvas.addEventListener("webglcontextlost", event => {
+        event.preventDefault();
+        stopRendering();
+        console.warn("WebGL context lost.");
+      });
+
+      canvas.addEventListener("webglcontextrestored", () => {
+        window.location.reload();
+      });
+    })();
+  </script>
 </body>
 </html>
