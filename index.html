@@ -27,6 +27,7 @@
       position: relative;
     }
 
+    /* Фоновый WebGL-шейдер (Волны) */
     .reflect-bg-canvas {
       position: fixed;
       inset: 0;
@@ -50,7 +51,67 @@
       pointer-events: none;
     }
 
-    /* Preloader */
+    /* 3D Спутник Европа */
+    #europa-container {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 5;
+      opacity: 0;
+      transform: scale(0.85);
+      pointer-events: none;
+      touch-action: none;
+      transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                  transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #europa-container.europa-visible {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    /* Аккуратные подписи к Европе (сверху и снизу) */
+    .europa-info {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 6;
+      pointer-events: none;
+      user-select: none;
+      opacity: 0;
+      transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .europa-title {
+      top: 14%;
+      font-size: clamp(1.2rem, 3.2vw, 1.8rem);
+      letter-spacing: 0.38em;
+      text-indent: 0.38em;
+      text-transform: uppercase;
+      color: #ece8e1;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+      transform: translate(-50%, -12px);
+    }
+
+    .europa-desc {
+      bottom: 13%;
+      font-size: clamp(0.78rem, 1.8vw, 0.95rem);
+      letter-spacing: 0.18em;
+      color: #7d7973;
+      text-transform: lowercase;
+      transform: translate(-50%, 12px);
+      margin-top: 0.5em;
+    }
+
+    /* Активация появления подписей вместе со спутником */
+    .europa-info.visible {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    /* Прелоадер */
     #preloader {
       position: fixed;
       inset: 0;
@@ -90,7 +151,7 @@
       cursor: pointer;
     }
 
-    /* Main content */
+    /* Главный контент */
     #main-content {
       position: relative;
       z-index: 10;
@@ -101,11 +162,30 @@
       width: 100%;
       min-height: 100%;
       padding: 24px;
+      pointer-events: none;
+      transition: opacity 1.1s cubic-bezier(0.4, 0, 0.2, 1), 
+                  filter 1.1s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 1.1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #main-content * {
+      pointer-events: auto;
+    }
+
+    #main-content.content-hidden {
+      opacity: 0 !important;
+      filter: blur(12px);
+      transform: scale(0.96);
+      pointer-events: none !important;
+    }
+
+    #main-content.content-hidden * {
+      pointer-events: none !important;
     }
 
     h1 {
       font-size: 2.5em;
-      margin-bottom: 0.5em;
+      margin-bottom: 0.3em;
       color: #bdb7af;
       transition: color 0.2s ease, text-shadow 0.2s ease;
     }
@@ -119,7 +199,7 @@
     p.description {
       max-width: 100%;
       font-size: 1em;
-      margin-bottom: 2em;
+      margin-bottom: 1.5em;
     }
 
     .typewriter-line {
@@ -136,12 +216,15 @@
     }
 
     .links {
-      margin-top: -1.9em;
+      margin-top: 0em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .links a {
       color: #bdb7af;
-      margin: 0 0.1em;
+      margin: 0 0.2em;
       text-decoration: underline;
       transition: color 0.2s ease;
     }
@@ -150,10 +233,27 @@
       color: #ffffff;
     }
 
-    .links .separator {
+    .toggle-trigger-btn {
+      background: none;
+      border: none;
+      outline: none;
+      font-family: inherit;
+      font-size: 1em;
       color: #66635f;
-      margin: 0 0.1em;
+      margin: 0 0.4em;
+      padding: 0 4px;
+      cursor: pointer;
       user-select: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toggle-trigger-btn:hover {
+      color: #edeadb;
+      text-shadow: 0 0 8px rgba(60, 110, 148, 0.5);
+      transform: scale(1.15);
     }
 
     @keyframes fadeInUp {
@@ -172,8 +272,8 @@
       animation: fadeInUp 1s ease forwards;
     }
 
-    .delay-1 { animation-delay: 2.5s; }
-    .delay-2 { animation-delay: 5.3s; }
+    .delay-1 { animation-delay: 1s; }
+    .delay-2 { animation-delay: 3.5s; }
     .delay-3 { animation-delay: 5.3s; }
     .delay-4 { animation-delay: 5.3s; }
 
@@ -181,68 +281,62 @@
       h1 {
         font-size: clamp(1.8rem, 8vw, 2.5em);
       }
-
       p.description {
         font-size: 0.9em;
         line-height: 1.5;
       }
-
-      .links {
-        margin-top: -1.4em;
+      .europa-title {
+        top: 10%;
       }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      #loading-text,
-      #preloader.ready #loading-text {
-        animation: none;
-      }
-
-      .fade-in {
-        animation-duration: 0.01ms;
-      }
-
-      #preloader {
-        transition-duration: 0.01ms;
+      .europa-desc {
+        bottom: 10%;
       }
     }
   </style>
 </head>
 
 <body>
-  <!-- WebGL background -->
+  <!-- WebGL Фон (Волны) -->
   <div class="reflect-bg-canvas" id="canvas-container" aria-hidden="true">
     <canvas id="glcanvas"></canvas>
     <div class="shader-overlay"></div>
   </div>
 
-  <!-- Preloader -->
+  <!-- 3D Спутник Европа -->
+  <div id="europa-container"></div>
+
+  <!-- Подписи к Европе -->
+  <div class="europa-info europa-title" id="europa-title">EUROPA</div>
+
+  <div class="europa-info europa-desc" id="europa-desc">Europa or Jupiter II is the smallest and least massive of Jupiter's four Galilean moons. It is observable from Earth with common binoculars and is a planetary-mass moon, slightly smaller and less massive than Earth's Moon. Europa is an icy moon, and, of the three icy Galilean moons, the closest orbiting Jupiter. As a result, it exhibits a relatively young surface shaped by tidal heating.</div>
+
+  <!-- Прелоадер -->
   <div id="preloader">
     <div id="loading-text">Loading</div>
   </div>
 
-  <!-- Main content -->
+  <!-- Основной контент -->
   <main id="main-content">
-    <h1 class="fade-in delay-1">INTEGRA welcomes</h1>
-    <p class="description fade-in delay-2">Among countless faces, I try to stand out and be memorable.</p>
+    <h1 class="fade-in delay-1">MOZGOPRAVIN welcomes</h1>
+    <p class="description fade-in delay-2">you shouldn't give up, even when you face your 100th defeat</p>
     <p class="description fade-in delay-3">
       <span class="typewriter-line" id="typElement"></span>
     </p>
 
     <div class="links fade-in delay-4">
       <a href="about.html">about</a>
-      <span class="separator" aria-hidden="true">---</span>
+      <button class="toggle-trigger-btn" id="wave-mode-btn">europa</button>
       <a href="social.html">social</a>
     </div>
   </main>
 
-  <!-- Audio preloads during the loading screen; playback starts after entry -->
   <audio id="bg-music" loop preload="auto"
-    src="https://github.com/Mozgopravin/Integra/raw/refs/heads/main/sound/main.mp3"></audio>
+    src="https://github.com/Mozgopravin/Integra/raw/refs/heads/main/sound/BaroMain.mp3"></audio>
 
-  <!-- Defer keeps HTML parsing from waiting for Typed.js -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
+  <!-- 1. Reflect Background Shader Script -->
   <script>
     (() => {
       "use strict";
@@ -252,6 +346,10 @@
       const loadingText = document.getElementById("loading-text");
       const mainContent = document.getElementById("main-content");
       const music = document.getElementById("bg-music");
+      const waveModeBtn = document.getElementById("wave-mode-btn");
+      const europaContainer = document.getElementById("europa-container");
+      const europaTitle = document.getElementById("europa-title");
+      const europaDesc = document.getElementById("europa-desc");
 
       const prefersReducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
@@ -275,6 +373,13 @@
       let lastHeight = 0;
       let typedStarted = false;
 
+      const defaultColor = { r: 60 / 255, g: 110 / 255, b: 148 / 255 };
+      const softRedColor = { r: 30 / 255, g: 28 / 255, b: 26 / 255 };
+      const currentColor = { ...defaultColor };
+      let targetColor = { ...defaultColor };
+      let isAltMode = false;
+      let transitionTimer = null;
+
       const VERTEX_SRC = `
         attribute vec4 a_position;
         void main() {
@@ -284,7 +389,6 @@
 
       const FRAGMENT_SRC = `
         precision highp float;
-
         uniform vec2 iResolution;
         uniform float iTime;
         uniform float u_speed;
@@ -341,75 +445,41 @@
 
       function compileShader(type, source) {
         const shader = gl.createShader(type);
-        if (!shader) {
-          throw new Error("Unable to create WebGL shader.");
-        }
-
+        if (!shader) throw new Error("Unable to create shader.");
         gl.shaderSource(shader, source);
         gl.compileShader(shader);
-
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-          const message = gl.getShaderInfoLog(shader) || "Unknown shader error";
-          gl.deleteShader(shader);
-          throw new Error(message);
-        }
-
         return shader;
       }
 
       function initializeWebGL() {
-        if (!gl) {
-          console.warn("WebGL is not supported. Using the fallback background.");
-          return false;
-        }
-
+        if (!gl) return false;
         try {
-          const vertexShader = compileShader(gl.VERTEX_SHADER, VERTEX_SRC);
-          const fragmentShader = compileShader(gl.FRAGMENT_SHADER, FRAGMENT_SRC);
-
+          const vs = compileShader(gl.VERTEX_SHADER, VERTEX_SRC);
+          const fs = compileShader(gl.FRAGMENT_SHADER, FRAGMENT_SRC);
           program = gl.createProgram();
-          if (!program) {
-            throw new Error("Unable to create WebGL program.");
-          }
-
-          gl.attachShader(program, vertexShader);
-          gl.attachShader(program, fragmentShader);
+          gl.attachShader(program, vs);
+          gl.attachShader(program, fs);
           gl.linkProgram(program);
 
-          gl.deleteShader(vertexShader);
-          gl.deleteShader(fragmentShader);
-
-          if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-            throw new Error(gl.getProgramInfoLog(program) || "WebGL link failed.");
-          }
-
           gl.useProgram(program);
-
           const buffer = gl.createBuffer();
           gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
           gl.bufferData(
             gl.ARRAY_BUFFER,
-            new Float32Array([
-              -1, -1, 1, -1, -1, 1,
-              -1, 1, 1, -1, 1, 1
-            ]),
+            new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
             gl.STATIC_DRAW
           );
 
-          const positionLocation = gl.getAttribLocation(program, "a_position");
-          gl.enableVertexAttribArray(positionLocation);
-          gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
-
+          const pos = gl.getAttribLocation(program, "a_position");
+          gl.enableVertexAttribArray(pos);
+          gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
           return true;
-        } catch (error) {
-          console.error("WebGL initialization failed:", error);
-          program = null;
+        } catch (e) {
           return false;
         }
       }
 
       const webglAvailable = initializeWebGL();
-
       const uniforms = webglAvailable ? {
         resolution: gl.getUniformLocation(program, "iResolution"),
         time: gl.getUniformLocation(program, "iTime"),
@@ -420,66 +490,42 @@
         iterations: gl.getUniformLocation(program, "u_iterations")
       } : null;
 
-      // Preserve the original Integra shader appearance and values.
-      const shaderSettings = {
-        red: 50 / 255,
-        green: 50 / 255,
-        blue: 50 / 255,
-        speed: 0.05,
-        scale: 0.5,
-        contrast: 16.0,
-        iterations: 4.0
-      };
-
-      // WebGL uniforms default to zero. Set the shader's fixed parameters explicitly.
       if (webglAvailable) {
-        gl.uniform1f(uniforms.speed, shaderSettings.speed);
-        gl.uniform3f(
-          uniforms.tint,
-          shaderSettings.red,
-          shaderSettings.green,
-          shaderSettings.blue
-        );
-        gl.uniform1f(uniforms.scale, shaderSettings.scale);
-        gl.uniform1f(uniforms.contrast, shaderSettings.contrast);
-        gl.uniform1f(uniforms.iterations, shaderSettings.iterations);
+        gl.uniform1f(uniforms.speed, 0.05);
+        gl.uniform3f(uniforms.tint, currentColor.r, currentColor.g, currentColor.b);
+        gl.uniform1f(uniforms.scale, 0.5);
+        gl.uniform1f(uniforms.contrast, 16.0);
+        gl.uniform1f(uniforms.iterations, 4.0);
       }
 
       function resizeCanvas() {
         if (!webglAvailable) return;
-
-        // Lower pixel density on small screens to reduce GPU workload.
-        const isSmallScreen = window.matchMedia("(max-width: 700px)").matches;
-        const dprLimit = isSmallScreen ? 1.25 : 2;
-        const dpr = Math.min(window.devicePixelRatio || 1, dprLimit);
-
-        const width = Math.max(1, Math.round(window.innerWidth * dpr));
-        const height = Math.max(1, Math.round(window.innerHeight * dpr));
-
-        if (width === lastWidth && height === lastHeight) return;
-
-        lastWidth = width;
-        lastHeight = height;
-
-        canvas.width = width;
-        canvas.height = height;
-        gl.viewport(0, 0, width, height);
-        gl.uniform2f(uniforms.resolution, width, height);
-      }
-
-      function drawFrame(timeSeconds) {
-        if (!webglAvailable) return;
-
-        gl.uniform1f(uniforms.time, timeSeconds);
-        gl.drawArrays(gl.TRIANGLES, 0, 6);
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        const w = Math.max(1, Math.round(window.innerWidth * dpr));
+        const h = Math.max(1, Math.round(window.innerHeight * dpr));
+        if (w === lastWidth && h === lastHeight) return;
+        lastWidth = w;
+        lastHeight = h;
+        canvas.width = w;
+        canvas.height = h;
+        gl.viewport(0, 0, w, h);
+        gl.uniform2f(uniforms.resolution, w, h);
       }
 
       function render() {
         if (!hasEntered || !isPageVisible || !webglAvailable) return;
 
+        const lerpFactor = 0.02;
+        currentColor.r += (targetColor.r - currentColor.r) * lerpFactor;
+        currentColor.g += (targetColor.g - currentColor.g) * lerpFactor;
+        currentColor.b += (targetColor.b - currentColor.b) * lerpFactor;
+
+        gl.uniform3f(uniforms.tint, currentColor.r, currentColor.g, currentColor.b);
+
         const now = performance.now();
         const elapsed = elapsedBeforePause + (now - animationStartedAt) / 1000;
-        drawFrame(elapsed);
+        gl.uniform1f(uniforms.time, elapsed);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
 
         if (!prefersReducedMotion) {
           animationFrame = requestAnimationFrame(render);
@@ -488,15 +534,9 @@
 
       function startRendering() {
         if (!hasEntered || !isPageVisible || !webglAvailable) return;
-
         cancelAnimationFrame(animationFrame);
         animationStartedAt = performance.now();
-
-        if (prefersReducedMotion) {
-          drawFrame(elapsedBeforePause);
-        } else {
-          animationFrame = requestAnimationFrame(render);
-        }
+        animationFrame = requestAnimationFrame(render);
       }
 
       function stopRendering() {
@@ -504,7 +544,6 @@
           cancelAnimationFrame(animationFrame);
           animationFrame = 0;
         }
-
         if (hasEntered && !prefersReducedMotion) {
           elapsedBeforePause += (performance.now() - animationStartedAt) / 1000;
         }
@@ -518,9 +557,9 @@
           strings: [
             "Hello from Gmod",
             "",
-            "Mozgopravin was here",
+            "Exynteria was here",
             "",
-            "owning since 2022",
+            "owning since 2020",
             "",
             "ur server downed",
             "",
@@ -538,7 +577,9 @@
             "",
             "Loadstring..........",
             "",
-            "VVVVVVVVVVVVVVVVVVVVVVVVVVV"
+            "VVVVVVVVVVVVVVVVVVVVVVVVVVV",
+            "",
+            "Europa Moon of Jupiter"
           ],
           typeSpeed: 90,
           backSpeed: 45,
@@ -559,22 +600,61 @@
 
         resizeCanvas();
         startRendering();
+        if (window.startEuropa) window.startEuropa();
 
         music.volume = 0.4;
-        music.play().catch(error => {
-          console.warn("Audio playback was prevented:", error);
-        });
-
+        music.play().catch(e => console.warn(e));
         startTypedText();
       }
 
-      // Wait until the page and deferred scripts are ready.
+      window.closeEuropa = function() {
+        if (!isAltMode) return;
+        isAltMode = false;
+        clearTimeout(transitionTimer);
+
+        // Скрываем подписи и саму планету
+        europaTitle.classList.remove("visible");
+        europaDesc.classList.remove("visible");
+        europaContainer.classList.remove("europa-visible");
+        targetColor = { ...defaultColor };
+
+        transitionTimer = setTimeout(() => {
+          if (!isAltMode) {
+            mainContent.classList.remove("content-hidden");
+          }
+        }, 700);
+      };
+
+      window.openEuropa = function() {
+        if (isAltMode) return;
+        isAltMode = true;
+        clearTimeout(transitionTimer);
+
+        mainContent.classList.add("content-hidden");
+        targetColor = { ...softRedColor };
+
+        transitionTimer = setTimeout(() => {
+          if (isAltMode) {
+            europaContainer.classList.add("europa-visible");
+            // Проявляем аккуратные подписи
+            europaTitle.classList.add("visible");
+            europaDesc.classList.add("visible");
+          }
+        }, 900);
+      };
+
+      waveModeBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (isAltMode) {
+          window.closeEuropa();
+        } else {
+          window.openEuropa();
+        }
+      });
+
       window.addEventListener("load", () => {
         loadingText.innerHTML = "click<br>to<br>enter";
         preloader.classList.add("ready");
-
-        // Begin downloading the soundtrack during the loading screen.
-        // Playback still waits for the visitor's click on "click to enter".
         music.load();
       }, { once: true });
 
@@ -582,34 +662,185 @@
 
       window.addEventListener("resize", () => {
         resizeCanvas();
-        if (hasEntered && isPageVisible && prefersReducedMotion) {
-          drawFrame(elapsedBeforePause);
-        }
       }, { passive: true });
 
       document.addEventListener("visibilitychange", () => {
         isPageVisible = !document.hidden;
-
-        if (!isPageVisible) {
-          stopRendering();
-        } else if (hasEntered) {
+        if (!isPageVisible) stopRendering();
+        else if (hasEntered) {
           resizeCanvas();
           startRendering();
         }
       });
+    })();
+  </script>
 
-      document.addEventListener("contextmenu", event => {
-      });
+  <!-- 2. Three.js Спутник Европа -->
+  <script>
+    (() => {
+      const CUSTOM_EUROPA_TEXTURE = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/5938ae9e-47de-424a-8836-f98e6658d37b/dcqbaif-1c3842cd-2e90-4be9-884c-ae1e6f266835.jpg/v1/fill/w_1920,h_960,q_75,strp/europa_texture_map_20k__by_askaniy_dcqbaif-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTYwIiwicGF0aCI6Ii9mLzU5MzhhZTllLTQ3ZGUtNDI0YS04ODM2LWY5OGU2NjU4ZDM3Yi9kY3FiYWlmLTFjMzg0MmNkLTJlOTAtNGJlOS04ODRjLWFlMWU2ZjI2NjgzNS5qcGciLCJ3aWR0aCI6Ijw9MTkyMCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.-Lc4aqvtAKk6AiykuFHJ-uc7SWeOTf53jO6e8B8wssg";
 
-      canvas.addEventListener("webglcontextlost", event => {
-        event.preventDefault();
-        stopRendering();
-        console.warn("WebGL context lost.");
-      });
+      const container = document.getElementById("europa-container");
+      let renderer, scene, camera, mesh, material;
+      let rotX = 0.05, rotY = 0.6;
+      let targetRotX = 0.05, targetRotY = 0.6;
+      let vx = 0, vy = 0;
+      let isDragging = false;
+      let hasDragged = false;
+      let startX = 0, startY = 0;
+      let lastX = 0, lastY = 0;
+      const raycaster = new THREE.Raycaster();
+      const pointer = new THREE.Vector2();
 
-      canvas.addEventListener("webglcontextrestored", () => {
-        window.location.reload();
-      });
+      function initEuropa() {
+        const width = container.clientWidth || window.innerWidth;
+        const height = container.clientHeight || window.innerHeight;
+
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 100);
+        camera.position.z = 4.2;
+
+        renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 0.85;
+        container.appendChild(renderer.domElement);
+
+        const ambientLight = new THREE.AmbientLight(0xd4d8e0, 0.32);
+        scene.add(ambientLight);
+
+        const sunLight = new THREE.DirectionalLight(0xfff6ea, 1.55);
+        sunLight.position.set(4.5, 1.2, 3.2);
+        scene.add(sunLight);
+
+        const loader = new THREE.TextureLoader();
+        const texture = loader.load(CUSTOM_EUROPA_TEXTURE);
+        texture.colorSpace = THREE.SRGBColorSpace;
+
+        material = new THREE.MeshStandardMaterial({
+          map: texture,
+          bumpMap: texture,
+          bumpScale: 0.022,
+          roughness: 0.82,
+          metalness: 0.02,
+          color: 0xded9d2
+        });
+
+        const geometry = new THREE.SphereGeometry(0.80, 64, 64);
+        mesh = new THREE.Mesh(geometry, material);
+        mesh.rotation.x = rotX;
+        mesh.rotation.y = rotY;
+        scene.add(mesh);
+
+        function checkIntersection(e) {
+          const clientX = e.clientX ?? (e.touches && e.touches[0].clientX);
+          const clientY = e.clientY ?? (e.touches && e.touches[0].clientY);
+          if (clientX === undefined || clientY === undefined) return false;
+
+          pointer.x = (clientX / window.innerWidth) * 2 - 1;
+          pointer.y = -(clientY / window.innerHeight) * 2 + 1;
+          raycaster.setFromCamera(pointer, camera);
+          const intersects = raycaster.intersectObject(mesh);
+          return intersects.length > 0;
+        }
+
+        const onDown = (e) => {
+          startX = e.clientX ?? (e.touches && e.touches[0].clientX) ?? 0;
+          startY = e.clientY ?? (e.touches && e.touches[0].clientY) ?? 0;
+          lastX = startX;
+          lastY = startY;
+          hasDragged = false;
+
+          if (checkIntersection(e)) {
+            isDragging = true;
+            vx = 0;
+            vy = 0;
+            container.style.cursor = "grabbing";
+          }
+        };
+
+        const onMove = (e) => {
+          const clientX = e.clientX ?? (e.touches && e.touches[0].clientX) ?? 0;
+          const clientY = e.clientY ?? (e.touches && e.touches[0].clientY) ?? 0;
+
+          if (isDragging) {
+            const dx = clientX - lastX;
+            const dy = clientY - lastY;
+            if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+              hasDragged = true;
+            }
+
+            const sens = 0.005;
+            targetRotY += dx * sens;
+            targetRotX += dy * sens;
+            targetRotX = Math.max(-1.3, Math.min(1.3, targetRotX));
+
+            vy = dx * sens;
+            vx = dy * sens;
+            lastX = clientX;
+            lastY = clientY;
+          } else {
+            container.style.cursor = checkIntersection(e) ? "grab" : "default";
+          }
+        };
+
+        const onUp = (e) => {
+          const clientX = e.clientX ?? (e.changedTouches && e.changedTouches[0].clientX) ?? lastX;
+          const clientY = e.clientY ?? (e.changedTouches && e.changedTouches[0].clientY) ?? lastY;
+          const moveDist = Math.hypot(clientX - startX, clientY - startY);
+
+          if (isDragging) {
+            isDragging = false;
+            container.style.cursor = "grab";
+          }
+
+          if (!hasDragged && moveDist < 6) {
+            if (!checkIntersection(e)) {
+              if (window.closeEuropa) window.closeEuropa();
+            }
+          }
+        };
+
+        container.addEventListener("pointerdown", onDown);
+        window.addEventListener("pointermove", onMove);
+        window.addEventListener("pointerup", onUp);
+
+        window.addEventListener("resize", () => {
+          const w = window.innerWidth;
+          const h = window.innerHeight;
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+          renderer.setSize(w, h);
+        });
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        if (!isDragging) {
+          targetRotY += 0.0008 + vy;
+          targetRotX += vx;
+          targetRotX = Math.max(-1.3, Math.min(1.3, targetRotX));
+          vx *= 0.94;
+          vy *= 0.94;
+        }
+
+        rotX += (targetRotX - rotX) * 0.1;
+        rotY += (targetRotY - rotY) * 0.1;
+
+        if (mesh) {
+          mesh.rotation.x = rotX;
+          mesh.rotation.y = rotY;
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      window.startEuropa = () => {
+        initEuropa();
+        requestAnimationFrame(animate);
+      };
     })();
   </script>
 </body>
